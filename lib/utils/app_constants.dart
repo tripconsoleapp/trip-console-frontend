@@ -644,6 +644,176 @@ class PlanQuantitiesStrings {
   static const String portionsPlannedSuffix = "portions planned";
 }
 
+class SubmittingTripStrings {
+  SubmittingTripStrings._();
+
+  static const String title = "Submitting your trip…";
+  static const String step1 = "Validating details";
+  static const String step2 = "Locking cost snapshot";
+  static const String step3 = "Sending to admin queue";
+  static const String step4 = "Generating confirmation";
+}
+
+class TripSubmittedStrings {
+  TripSubmittedStrings._();
+
+  static const String title = "Trip Submitted!";
+  static const String body = "Your journey has been officially logged. Our concierge team is now preparing the final logistics for your premium travel experience.";
+  static const String tripReference = "TRIP REFERENCE";
+  static const String totalInvestment = "TOTAL INVESTMENT";
+  static const String submissionDate = "Submission Date";
+  static const String whatHappensNext = "What Happens Next";
+  static const String adminReviewTitle = "Admin Review";
+  static const String adminReviewBody = "A travel specialist verifies your itinerary details.";
+  static const String operatorTitle = "Operator Assignment";
+  static const String operatorBody = "Local logistics partners are booked and confirmed.";
+  static const String paymentTitle = "Payment";
+  static const String paymentBody = "Final secure link sent to complete your booking.";
+  static const String payment = "Payment";
+  static const String backToDashboard = "Back to Dashboard";
+  static const String emailNote = "Confirmation sent to your registered email";
+  static const String conciergeActive = "24/7 Digital Concierge Support Active";
+}
+
+class TripDetailStrings {
+  TripDetailStrings._();
+
+  static const String title = "Trip Details";
+  static const String underAdminReview = "UNDER ADMIN REVIEW";
+  static const String underAdminReviewBody = "Estimated confirmation within 24-48 hours";
+  static const String verifiedTitle = "You're Verified! 🎉";
+  static const String verifiedBody = "Your trip has been confirmed by our team. Complete your payment to lock in your booking.";
+  static const String balanceCleared = "Balance Cleared";
+  static const String balanceDue = "BALANCE DUE";
+  static const String fullyPaid = "Fully Paid";
+  static const String verificationStatus = "VERIFICATION STATUS";
+  static const String stepSubmitted = "Submitted";
+  static const String stepAdminVerification = "Admin Verification";
+  static const String stepOperatorAssignment = "Operator Assignment";
+  static const String stepPayment = "Payment";
+  static const String inProgress = "IN PROGRESS";
+  static const String pending = "PENDING";
+  static const String lockedNote = "Locked until verification completes";
+  static const String assignedOperator = "Assigned Operator";
+  static const String fieldCoordinator = "Field Coordinator";
+  static const String costBreakdown = "COST BREAKDOWN";
+  static const String transport = "Transport";
+  static const String accommodation = "Accommodation";
+  static const String activities = "Activities";
+  static const String total = "Total";
+  static const String documents = "Documents";
+  static const String choosePaymentPlan = "Choose Payment Plan";
+  static const String remindMeLater = "Remind me later";
+  static const String payBalanceNow = "Pay Balance Now";
+  static const String viewItinerary = "View Itinerary";
+  static const String downloadReceipt = "Download Receipt";
+  static const String needHelp = "Need Help?";
+  static const String conciergeSupportBody = "24/7 Digital Concierge Support";
+  static const String chatNow = "Chat Now";
+}
+
+class PaymentPlanStrings {
+  PaymentPlanStrings._();
+
+  static const String title = "Payment";
+  static const String choosePlanPrompt = "Choose your preferred payment plan";
+  static const String payFullAmount = "Pay Full Amount";
+  static const String recommended = "RECOMMENDED";
+  static const String payFullBody = "Pay everything now and confirm your booking immediately.";
+  static const String payAdvance = "Pay Advance";
+  static const String flexible = "FLEXIBLE";
+  static const String payAdvanceBodyPrefix = "Remaining ";
+  static const String payAdvanceBodySuffix = " due by ";
+  static const String payNowPrefix = "Pay ₹";
+  static const String payNowSuffix = " Now";
+}
+
+class PaymentMethodStrings {
+  PaymentMethodStrings._();
+
+  static const String title = "Payment Method";
+  static const String totalTripCost = "TOTAL TRIP COST";
+  static const String advanceAmount = "ADVANCE AMOUNT";
+  static const String payingInFull = "Paying in full";
+  static const String payingAdvance = "Paying Advance (20%)";
+  static const String remainingDuePrefix = "Remaining ₹";
+  static const String remainingDueSuffix = " due by ";
+  static const String choosePaymentMethod = "CHOOSE PAYMENT METHOD";
+  static const String creditDebitCard = "Credit / Debit Card";
+  static const String cardNetworks = "Visa, Mastercard, AMEX";
+  static const String upi = "UPI";
+  static const String upiApps = "GPay, PhonePe, BHIM";
+  static const String netBanking = "Net Banking";
+  static const String netBankingBody = "All major Indian banks";
+  static const String securityNote = "SSL Encrypted & PCI DSS Compliant";
+}
+
+class PaymentProcessingStrings {
+  PaymentProcessingStrings._();
+
+  static const String title = "Processing your payment…";
+  static const String body = "Please don't close this screen. This usually takes a few seconds.";
+  static const String securityNote = "Your payment is secured and encrypted";
+}
+
+class PaymentResultStrings {
+  PaymentResultStrings._();
+
+  static const String fullSuccessTitle = "Payment Successful — Trip Fully Confirmed!";
+  static const String fullSuccessBody = "Your trip is now fully paid and booked. No further payments needed.";
+  static const String advanceSuccessTitle = "Advance Payment Received — Trip Reserved!";
+  static const String advanceSuccessBody = "Your spot is secured. Please complete the remaining balance before your trip start date to fully confirm your booking.";
+  static const String balanceSuccessTitle = "Balance Cleared — Trip Fully Confirmed!";
+  static const String balanceSuccessBody = "You've completed all payments for this trip. We'll see you there!";
+  static const String amountPaid = "AMOUNT PAID";
+  static const String balanceAmountPaid = "BALANCE AMOUNT PAID";
+  static const String transactionId = "Transaction ID";
+  static const String dateTime = "Date & Time";
+  static const String paymentMethod = "Payment Method";
+  static const String amountPaidLabel = "Amount Paid";
+  static const String remainingBalance = "Remaining Balance";
+  static const String balanceDueDate = "Balance Due Date";
+  static const String paidPercent = "paid";
+  static const String remainingPercent = "remaining";
+  static const String viewTripDetails = "View Trip Details";
+  static const String downloadReceipt = "Download Receipt";
+  static const String emailNote = "Confirmation email sent to";
+  static const String needHelp = "Need help?";
+  static const String contactConcierge = "Contact Concierge";
+}
+
+class PaymentFailedStrings {
+  PaymentFailedStrings._();
+
+  static const String title = "Payment Failed";
+  static const String body = "We couldn't process your transaction";
+  static const String transactionDetails = "TRANSACTION DETAILS";
+  static const String reasonPrefix = "Reason: ";
+  static const String defaultReason = "Card declined by issuing bank";
+  static const String whatToDoNext = "What to do next";
+  static const String tip1 = "Check card limits and balance for sufficient funds.";
+  static const String tip2 = "Try another payment method or credit card.";
+  static const String tip3 = "Contact your issuing bank for more details.";
+  static const String tryAgain = "Try Again";
+  static const String payLater = "Pay Later";
+}
+
+class PaymentReceiptStrings {
+  PaymentReceiptStrings._();
+
+  static const String title = "Payment Receipt";
+  static const String receiptFor = "RECEIPT FOR";
+  static const String tripReference = "TRIP REFERENCE";
+  static const String issuedOn = "ISSUED ON";
+  static const String advancePayment = "Advance Payment";
+  static const String balancePayment = "Balance Payment";
+  static const String totalPaid = "Total Paid";
+  static const String billedTo = "BILLED TO";
+  static const String emailedNote = "This receipt has also been emailed to your registered address.";
+  static const String downloadAsPdf = "Download as PDF";
+  static const String shareReceipt = "Share Receipt";
+}
+
 class StartingLocationStrings {
   StartingLocationStrings._();
 

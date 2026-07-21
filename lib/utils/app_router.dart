@@ -6,6 +6,8 @@ import '../models/trip_package.dart';
 import '../models/vendor_option.dart';
 import '../models/hotel_option.dart';
 import '../models/restaurant_option.dart';
+import '../models/trip_summary.dart';
+import '../models/payment_args.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/onboarding/onboarding_screen.dart';
 import '../screens/onboarding/get_started_screen.dart';
@@ -48,6 +50,15 @@ import '../screens/trip_builder/multi_vehicle_listing_screen.dart';
 import '../screens/trip_builder/itinerary_generating_screen.dart';
 import '../screens/trip_builder/itinerary_day_screen.dart';
 import '../screens/trip_builder/declarations_screen.dart';
+import '../screens/trip_builder/submitting_trip_screen.dart';
+import '../screens/trip_builder/trip_submitted_screen.dart';
+import '../screens/my_trips/trip_detail_screen.dart';
+import '../screens/my_trips/payment_plan_screen.dart';
+import '../screens/my_trips/payment_method_screen.dart';
+import '../screens/my_trips/payment_processing_screen.dart';
+import '../screens/my_trips/payment_result_screen.dart';
+import '../screens/my_trips/payment_failed_screen.dart';
+import '../screens/my_trips/payment_receipt_screen.dart';
 
 /// Central route table. New screens register a route here as they're
 /// converted from Figma, in the same order as the project's screen list.
@@ -96,6 +107,15 @@ class AppRouter {
   static const String itineraryGenerating = '/trip/itinerary/generating';
   static const String itineraryDay = '/trip/itinerary/day';
   static const String declarations = '/trip/review/declarations';
+  static const String submittingTrip = '/trip/submitting';
+  static const String tripSubmitted = '/trip/submitted';
+  static const String tripDetail = '/my-trips/detail';
+  static const String paymentPlan = '/my-trips/payment/plan';
+  static const String paymentMethod = '/my-trips/payment/method';
+  static const String paymentProcessing = '/my-trips/payment/processing';
+  static const String paymentResult = '/my-trips/payment/result';
+  static const String paymentFailed = '/my-trips/payment/failed';
+  static const String paymentReceipt = '/my-trips/payment/receipt';
 
   static GoRouter router(BuildContext context) {
     return GoRouter(
@@ -188,6 +208,36 @@ class AppRouter {
           builder: (ctx, state) => ItineraryDayScreen(day: state.extra as int? ?? 0),
         ),
         GoRoute(path: declarations, builder: (ctx, state) => const DeclarationsScreen()),
+        GoRoute(path: submittingTrip, builder: (ctx, state) => const SubmittingTripScreen()),
+        GoRoute(path: tripSubmitted, builder: (ctx, state) => const TripSubmittedScreen()),
+        GoRoute(
+          path: tripDetail,
+          builder: (ctx, state) => TripDetailScreen(trip: state.extra as TripSummary),
+        ),
+        GoRoute(
+          path: paymentPlan,
+          builder: (ctx, state) => PaymentPlanScreen(trip: state.extra as TripSummary),
+        ),
+        GoRoute(
+          path: paymentMethod,
+          builder: (ctx, state) => PaymentMethodScreen(args: state.extra as PaymentArgs),
+        ),
+        GoRoute(
+          path: paymentProcessing,
+          builder: (ctx, state) => PaymentProcessingScreen(args: state.extra as PaymentArgs),
+        ),
+        GoRoute(
+          path: paymentResult,
+          builder: (ctx, state) => PaymentResultScreen(args: state.extra as PaymentArgs),
+        ),
+        GoRoute(
+          path: paymentFailed,
+          builder: (ctx, state) => PaymentFailedScreen(args: state.extra as PaymentArgs),
+        ),
+        GoRoute(
+          path: paymentReceipt,
+          builder: (ctx, state) => PaymentReceiptScreen(trip: state.extra as TripSummary),
+        ),
       ],
       errorBuilder: (ctx, state) => Scaffold(
         body: Center(child: Text('Page not found: ${state.uri.path}')),

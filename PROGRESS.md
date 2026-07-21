@@ -473,3 +473,88 @@ tab was still running the previously-loaded JS bundle. A **brand new tab**
 (`tabs_create` + `navigate`) resolved it immediately. When a restart
 doesn't seem to have taken effect, open a fresh tab before concluding
 there's a build problem.
+
+---
+
+## 2026-07-21 — Session 6: Post-submission — status, payments, receipts
+
+User supplied 5 more screenshots covering everything *after* a trip is
+submitted: a richer submission success screen, trip status/verification
+tracking, and a full payment system (plan selection, method, processing,
+success/failure, balance payment, receipts). Built the pieces that close
+real dead ends already sitting in the app — My Trips' "Track Status" /
+"Pay Now" / "View Receipt" buttons previously did nothing (or `Track
+Status`/`Pay Now` had no `onAction` case at all). `flutter analyze` clean;
+the full advance-payment round trip (Verified → Payment Plan → Payment
+Method → Processing → Result → back to Trip Detail showing the updated
+balance-due state) was click-tested live in the browser.
+
+### New screens
+
+| Screen | File | Reached from |
+|---|---|---|
+| Submitting Trip (loading) | `trip_builder/submitting_trip_screen.dart` | Declarations' submit dialog |
+| Trip Submitted (success) | `trip_builder/trip_submitted_screen.dart` | after Submitting Trip |
+| Trip Detail | `my_trips/trip_detail_screen.dart` | My Trips: Submitted/Paid rows, "View Trip Details" after payment |
+| Payment Plan | `my_trips/payment_plan_screen.dart` | My Trips: Verified row ("Pay Now") |
+| Payment Method | `my_trips/payment_method_screen.dart` | Payment Plan, or Trip Detail's "Pay Balance Now" |
+| Payment Processing | `my_trips/payment_processing_screen.dart` | Payment Method |
+| Payment Result | `my_trips/payment_result_screen.dart` | after Processing (always succeeds — see below) |
+| Payment Failed | `my_trips/payment_failed_screen.dart` | built, not wired to a trigger (see below) |
+| Payment Receipt | `my_trips/payment_receipt_screen.dart` | My Trips: Completed row ("View Receipt"), or Payment Result |
+
+New model: `payment_args.dart` (`PaymentArgs` — trip + amount + isAdvance +
+isBalance, threaded through Method → Processing → Result → Receipt so each
+screen doesn't need its own copy of that context). `TripSummary` gained
+`totalCost`/`amountPaid`/`balanceDue`/`caseReference`/`copyWith` — previously
+it only carried enough to render the My Trips list card, not enough for a
+detail or payment flow.
+
+### Decisions made without asking (flag if wrong)
+
+- **`PaymentProcessingScreen` always succeeds after ~1.6s** — there's no
+  real payment gateway to fail against, so simulating a random failure
+  would be arbitrary, not meaningful. `PaymentFailedScreen` is fully built
+  and routable (`AppRouter.paymentFailed`) for design completeness, but
+  nothing currently navigates to it. If a real failure condition should
+  exist (e.g. a debug toggle), that needs a product decision, not a coin
+  flip.
+- **Paying an advance updates the trip's `TripStatus` to `paid`** even
+  though a balance remains — matches the existing enum (there's no separate
+  "partially paid" status) and `TripSummary.balanceDue` is what
+  `TripDetailScreen` actually branches on for the balance-due banner and
+  "Pay Balance Now" CTA, not the status enum alone.
+- **Payment updates don't persist back into My Trips' mock list** — `Trip
+  Detail`/`Payment Result` construct an updated `TripSummary` via
+  `copyWith` and pass it *forward* (so the immediate next screen shows the
+  correct new state, which is what got verified), but My Trips' `_trips` is
+  still a `static const` list, so navigating back to My Trips itself shows
+  the old pre-payment row. Same category of limitation as the rest of this
+  UI-only prototype (no backend), consistent with how Session 4/5 handled
+  mock data — flagging in case a real state store is wanted later.
+- **Cost breakdown on Trip Detail is a proportional split** (35% transport
+  / 40% accommodation / 25% activities) of `totalCost`, not real itemized
+  data — My Trips' mock trips were never built from `NewTripProvider`
+  selections, so there's no real per-service breakdown to show. Same
+  "illustrative, not authoritative" pattern as Session 5's itinerary block
+  costs.
+- **No `intl` package** — dates are formatted with a small hardcoded month
+  list rather than adding a new pubspec dependency mid-session for one
+  screen's date display.
+
+### Explicitly deferred (not built, not silently skipped)
+
+- **Notifications Hub** — shown in 3 different visual variants across the
+  screenshots, not tied to any existing button or nav destination in the
+  app. Reads as a separate feature area, not a gap-fill.
+- **Standalone PDF Documents/Download screen** — folded its content into
+  Trip Detail's "Documents" section (tappable rows) instead of a dedicated
+  full-screen document browser, since that's where the screenshots' own
+  "Trip Details" frame already links out to documents.
+- Also not built, same standard as prior sessions (visible in screenshots
+  as only one static frame, no interaction shown, or clearly a variant of
+  something already covered): the "Verification Approved" screen as a
+  separate step (folded its messaging into Trip Detail's verified-state
+  banner instead), and the balance-payment-specific success/failure
+  screens as *separate* files (they reuse Payment Result/Failed via
+  `PaymentArgs.isBalance`, same screens, different copy).

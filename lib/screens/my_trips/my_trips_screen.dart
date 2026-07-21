@@ -38,6 +38,7 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
       subtitle: '4 Destinations · 6D/5N · College Trip',
       status: TripStatus.submitted,
       updatedLabel: 'Submitted 1 day ago',
+      totalCost: 89400,
     ),
     TripSummary(
       id: '3',
@@ -45,6 +46,16 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
       subtitle: '1 Destination · 2D/1N · Group Trip',
       status: TripStatus.verified,
       updatedLabel: 'Verified today',
+      totalCost: 42000,
+    ),
+    TripSummary(
+      id: '5',
+      name: 'Western Ghats School Expedition',
+      subtitle: '3 Destinations · 12D · School Trip',
+      status: TripStatus.paid,
+      updatedLabel: 'Advance paid 2 days ago',
+      totalCost: 119595,
+      amountPaid: 23919,
     ),
     TripSummary(
       id: '4',
@@ -53,6 +64,8 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
       status: TripStatus.completed,
       updatedLabel: 'Completed 3 weeks ago',
       receiptAvailable: true,
+      totalCost: 54200,
+      amountPaid: 54200,
     ),
   ];
 
@@ -129,9 +142,23 @@ class _MyTripsScreenState extends State<MyTripsScreen> {
                       itemCount: trips.length,
                       itemBuilder: (context, index) => TripSummaryCard(
                         trip: trips[index],
-                        onTap: () {},
+                        onTap: () {
+                          if (trips[index].status != TripStatus.draft) context.push(AppRouter.tripDetail, extra: trips[index]);
+                        },
                         onAction: () {
-                          if (trips[index].status == TripStatus.draft) context.push(AppRouter.tripBasics);
+                          final trip = trips[index];
+                          switch (trip.status) {
+                            case TripStatus.draft:
+                              context.push(AppRouter.tripBasics);
+                            case TripStatus.submitted:
+                              context.push(AppRouter.tripDetail, extra: trip);
+                            case TripStatus.verified:
+                              context.push(AppRouter.paymentPlan, extra: trip);
+                            case TripStatus.paid:
+                              context.push(AppRouter.tripDetail, extra: trip);
+                            case TripStatus.completed:
+                              context.push(AppRouter.paymentReceipt, extra: trip);
+                          }
                         },
                       ),
                     ),

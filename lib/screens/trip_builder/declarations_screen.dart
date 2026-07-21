@@ -231,7 +231,7 @@ class _SubmitConfirmationDialog extends StatelessWidget {
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: () => context.go(AppRouter.myTrips),
+                onPressed: () => context.go(AppRouter.submittingTrip),
                 child: Text(SubmitConfirmationStrings.yesSubmit, style: AppTextStyles.button()),
               ),
             ),
