@@ -798,6 +798,21 @@ class PaymentFailedStrings {
   static const String payLater = "Pay Later";
 }
 
+class LockedItineraryStrings {
+  LockedItineraryStrings._();
+
+  static const String title = "Itinerary";
+  static const String itineraryLocked = "ITINERARY LOCKED";
+  static const String scheduleOverview = "Schedule Overview";
+  static const String eventsSuffix = "events";
+  static const String startSuffix = "Start";
+  static const String lockedNotice = "This itinerary is currently locked for booking. Modifications are disabled until the reservation window re-opens. Contact your concierge for manual overrides.";
+  static const String viewMap = "View Map";
+  static const String shareTrip = "Share Trip";
+  static const String dayPrefix = "Day ";
+  static const String totalDailyExpense = "TOTAL DAILY EXPENSE";
+}
+
 class PaymentReceiptStrings {
   PaymentReceiptStrings._();
 

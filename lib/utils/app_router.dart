@@ -59,6 +59,8 @@ import '../screens/my_trips/payment_processing_screen.dart';
 import '../screens/my_trips/payment_result_screen.dart';
 import '../screens/my_trips/payment_failed_screen.dart';
 import '../screens/my_trips/payment_receipt_screen.dart';
+import '../screens/my_trips/locked_itinerary_screen.dart';
+import '../screens/my_trips/locked_itinerary_day_screen.dart';
 
 /// Central route table. New screens register a route here as they're
 /// converted from Figma, in the same order as the project's screen list.
@@ -116,6 +118,8 @@ class AppRouter {
   static const String paymentResult = '/my-trips/payment/result';
   static const String paymentFailed = '/my-trips/payment/failed';
   static const String paymentReceipt = '/my-trips/payment/receipt';
+  static const String lockedItinerary = '/my-trips/itinerary';
+  static const String lockedItineraryDay = '/my-trips/itinerary/day';
 
   static GoRouter router(BuildContext context) {
     return GoRouter(
@@ -237,6 +241,17 @@ class AppRouter {
         GoRoute(
           path: paymentReceipt,
           builder: (ctx, state) => PaymentReceiptScreen(trip: state.extra as TripSummary),
+        ),
+        GoRoute(
+          path: lockedItinerary,
+          builder: (ctx, state) => LockedItineraryScreen(trip: state.extra as TripSummary),
+        ),
+        GoRoute(
+          path: lockedItineraryDay,
+          builder: (ctx, state) {
+            final extra = state.extra as ({TripSummary trip, int day, String title});
+            return LockedItineraryDayScreen(trip: extra.trip, day: extra.day, dayTitle: extra.title);
+          },
         ),
       ],
       errorBuilder: (ctx, state) => Scaffold(

@@ -558,3 +558,27 @@ detail or payment flow.
   banner instead), and the balance-payment-specific success/failure
   screens as *separate* files (they reuse Payment Result/Failed via
   `PaymentArgs.isBalance`, same screens, different copy).
+
+### Follow-up — locked itinerary view (closes a dead button found in audit)
+
+A post-session audit (cross-checking every built screen against every
+screenshot, plus `git fetch` to confirm local `HEAD` matched
+`origin/main`) turned up one real gap: Trip Detail's "View Itinerary"
+button (fully-paid state) had an empty `onPressed`. Built the two screens
+it should have led to:
+
+- `my_trips/locked_itinerary_screen.dart` — schedule overview (locked
+  badge, one row per day with event count + start time, the "modifications
+  disabled" notice, View Map/Share Trip), matching the "Kerala Getaway ·
+  ITINERARY LOCKED" screenshot.
+- `my_trips/locked_itinerary_day_screen.dart` — read-only day timeline,
+  visually parallel to the wizard's editable `ItineraryDayScreen` but with
+  no edit/add-block affordances.
+
+Since `TripSummary` (My Trips' mock data) carries no real itinerary,
+day count and block content are synthesized deterministically from the
+trip's subtitle (`"XD"` parsed via regex, defaulting to 3) and
+`totalCost`/day-count split — same "illustrative, not authoritative"
+approach as every other derived-data screen in this app. Verified live:
+Kerala Pilgrimage Tour (fully paid) → View Itinerary → Schedule Overview →
+Day 1 detail, all rendering correctly. `flutter analyze` clean.

@@ -188,7 +188,7 @@ class TripDetailScreen extends StatelessWidget {
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () => context.push(AppRouter.lockedItinerary, extra: trip),
               child: Text(TripDetailStrings.viewItinerary),
             ),
           ),
