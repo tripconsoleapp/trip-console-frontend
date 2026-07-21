@@ -9,6 +9,9 @@ import '../screens/auth/sign_up_screen.dart';
 import '../screens/auth/role_selection_screen.dart';
 import '../screens/auth/verify_email_screen.dart';
 import '../screens/auth/login_screen.dart';
+import '../screens/auth/forgot_password_screen.dart';
+import '../screens/auth/reset_password_screen.dart';
+import '../screens/auth/session_expired_screen.dart';
 import '../screens/auth/verify_otp_screen.dart';
 import '../screens/placeholder/coming_soon_screen.dart';
 import '../screens/home/home_dashboard_screen.dart';
@@ -28,6 +31,9 @@ class AppRouter {
   static const String verifyEmail = '/verify-email';
   static const String login = '/login';
   static const String verifyOtp = '/verify-otp';
+  static const String forgotPassword = '/forgot-password';
+  static const String resetPassword = '/reset-password';
+  static const String sessionExpired = '/session-expired';
   static const String comingSoon = '/coming-soon';
   static const String home = '/home';
   static const String tripBasics = '/trip/basics';
@@ -51,6 +57,9 @@ class AppRouter {
         ),
         GoRoute(path: login, builder: (ctx, state) => const LoginScreen()),
         GoRoute(path: verifyOtp, builder: (ctx, state) => const VerifyOtpScreen()),
+        GoRoute(path: forgotPassword, builder: (ctx, state) => const ForgotPasswordScreen()),
+        GoRoute(path: resetPassword, builder: (ctx, state) => const ResetPasswordScreen()),
+        GoRoute(path: sessionExpired, builder: (ctx, state) => const SessionExpiredScreen()),
         GoRoute(
           path: comingSoon,
           builder: (ctx, state) => ComingSoonScreen(role: state.extra as UserRole? ?? UserRole.operator),

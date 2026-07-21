@@ -10,8 +10,21 @@ class NewTripProvider extends ChangeNotifier {
   String tripId = '';
   String tripName = '';
   TripType tripType = TripType.individual;
+
+  // Individual trip fields
   bool travelingWithCompanion = false;
   String companionName = '';
+
+  // Group trip fields
+  String groupName = '';
+  int membersCount = 0;
+  int companionsCount = 0;
+
+  // College/School trip fields
+  String institutionName = '';
+  int studentsCount = 0;
+  int staffCount = 0;
+
   String emergencyContactName = '';
   String emergencyContactPhone = '';
   final List<ItineraryStop> stops = [
@@ -37,6 +50,36 @@ class NewTripProvider extends ChangeNotifier {
 
   void setCompanionName(String value) {
     companionName = value;
+    notifyListeners();
+  }
+
+  void setGroupName(String value) {
+    groupName = value;
+    notifyListeners();
+  }
+
+  void setMembersCount(int value) {
+    membersCount = value;
+    notifyListeners();
+  }
+
+  void setCompanionsCount(int value) {
+    companionsCount = value;
+    notifyListeners();
+  }
+
+  void setInstitutionName(String value) {
+    institutionName = value;
+    notifyListeners();
+  }
+
+  void setStudentsCount(int value) {
+    studentsCount = value;
+    notifyListeners();
+  }
+
+  void setStaffCount(int value) {
+    staffCount = value;
     notifyListeners();
   }
 

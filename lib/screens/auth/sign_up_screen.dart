@@ -31,6 +31,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _formError;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<EmailAuthProvider>().clearError();
+    });
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
@@ -89,13 +97,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 4),
               Text(SignUpStrings.subtitle, style: AppTextStyles.bodyLg(color: AppColors.textGrey)),
               const SizedBox(height: 24),
-              LabeledTextField(label: SignUpStrings.fullName, controller: _nameController, hintText: SignUpStrings.fullNameHint),
+              LabeledTextField(
+                label: SignUpStrings.fullName,
+                controller: _nameController,
+                hintText: SignUpStrings.fullNameHint,
+                prefixIcon: Icons.person_outline_rounded,
+              ),
               const SizedBox(height: 16),
               LabeledTextField(
                 label: SignUpStrings.emailAddress,
                 controller: _emailController,
                 hintText: SignUpStrings.emailHint,
                 keyboardType: TextInputType.emailAddress,
+                prefixIcon: Icons.mail_outline_rounded,
               ),
               const SizedBox(height: 16),
               LabeledTextField(
@@ -103,18 +117,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 controller: _mobileController,
                 hintText: SignUpStrings.mobileHint,
                 keyboardType: TextInputType.phone,
+                prefixIcon: Icons.smartphone_rounded,
               ),
               const SizedBox(height: 4),
               Text(SignUpStrings.mobileNote, style: AppTextStyles.bodySm()),
               const SizedBox(height: 16),
-              LabeledTextField(label: SignUpStrings.password, controller: _passwordController, hintText: '••••••••'),
+              LabeledTextField(
+                label: SignUpStrings.password,
+                controller: _passwordController,
+                hintText: '••••••••',
+                obscurable: true,
+                prefixIcon: Icons.lock_outline_rounded,
+              ),
               const SizedBox(height: 8),
               AnimatedBuilder(
                 animation: _passwordController,
                 builder: (_, __) => PasswordStrengthMeter(password: _passwordController.text),
               ),
               const SizedBox(height: 16),
-              LabeledTextField(label: SignUpStrings.confirmPassword, controller: _confirmPasswordController, hintText: '••••••••'),
+              LabeledTextField(
+                label: SignUpStrings.confirmPassword,
+                controller: _confirmPasswordController,
+                hintText: '••••••••',
+                obscurable: true,
+                prefixIcon: Icons.lock_outline_rounded,
+              ),
               const SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -13,9 +13,13 @@ import '../../widgets/wizard_step_indicator.dart';
 import '../../widgets/wizard_bottom_bar.dart';
 import '../../widgets/labeled_text_field.dart';
 import '../../widgets/selectable_chip.dart';
+import '../../widgets/counter_field.dart';
+import '../../widgets/info_note.dart';
 
-/// Step 1 of the trip-creation wizard — trip name, type, optional
-/// companion, and emergency contact.
+/// Step 1 of the trip-creation wizard — trip name, type, and then a set of
+/// fields that vary by trip type: Individual (companion toggle), Group
+/// (group name + members/companions), College/School (institution name +
+/// students/staff).
 class TripBasicsScreen extends StatefulWidget {
   const TripBasicsScreen({super.key});
 
@@ -26,6 +30,8 @@ class TripBasicsScreen extends StatefulWidget {
 class _TripBasicsScreenState extends State<TripBasicsScreen> {
   late final TextEditingController _tripNameController;
   late final TextEditingController _companionNameController;
+  late final TextEditingController _groupNameController;
+  late final TextEditingController _institutionNameController;
   late final TextEditingController _emergencyNameController;
   late final TextEditingController _emergencyPhoneController;
 
@@ -39,6 +45,10 @@ class _TripBasicsScreenState extends State<TripBasicsScreen> {
       ..addListener(() => draft.setTripName(_tripNameController.text));
     _companionNameController = TextEditingController(text: draft.companionName)
       ..addListener(() => draft.setCompanionName(_companionNameController.text));
+    _groupNameController = TextEditingController(text: draft.groupName)
+      ..addListener(() => draft.setGroupName(_groupNameController.text));
+    _institutionNameController = TextEditingController(text: draft.institutionName)
+      ..addListener(() => draft.setInstitutionName(_institutionNameController.text));
     _emergencyNameController = TextEditingController(text: draft.emergencyContactName)
       ..addListener(() => draft.setEmergencyContactName(_emergencyNameController.text));
     _emergencyPhoneController = TextEditingController(text: draft.emergencyContactPhone)
@@ -49,6 +59,8 @@ class _TripBasicsScreenState extends State<TripBasicsScreen> {
   void dispose() {
     _tripNameController.dispose();
     _companionNameController.dispose();
+    _groupNameController.dispose();
+    _institutionNameController.dispose();
     _emergencyNameController.dispose();
     _emergencyPhoneController.dispose();
     super.dispose();
@@ -119,28 +131,12 @@ class _TripBasicsScreenState extends State<TripBasicsScreen> {
             const SizedBox(height: 20),
             const Divider(color: Color(0xFFE2E2E2)),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  TripBasicsStrings.travelingWithCompanion,
-                  style: AppTextStyles.bodyLg(color: AppColors.textDark),
-                ),
-                Switch(
-                  value: draft.travelingWithCompanion,
-                  activeThumbColor: AppColors.accentOrange,
-                  onChanged: draft.setTravelingWithCompanion,
-                ),
-              ],
+            _TypeSpecificFields(
+              draft: draft,
+              companionNameController: _companionNameController,
+              groupNameController: _groupNameController,
+              institutionNameController: _institutionNameController,
             ),
-            if (draft.travelingWithCompanion) ...[
-              const SizedBox(height: 12),
-              LabeledTextField(
-                label: TripBasicsStrings.companionName,
-                controller: _companionNameController,
-                hintText: TripBasicsStrings.companionNameHint,
-              ),
-            ],
             const SizedBox(height: 20),
             Text(
               TripBasicsStrings.emergencyContact,
@@ -185,5 +181,110 @@ class _TripBasicsScreenState extends State<TripBasicsScreen> {
         ),
       ),
     );
+  }
+}
+
+/// The block of fields that changes shape depending on [NewTripProvider.tripType].
+class _TypeSpecificFields extends StatelessWidget {
+  const _TypeSpecificFields({
+    required this.draft,
+    required this.companionNameController,
+    required this.groupNameController,
+    required this.institutionNameController,
+  });
+
+  final NewTripProvider draft;
+  final TextEditingController companionNameController;
+  final TextEditingController groupNameController;
+  final TextEditingController institutionNameController;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (draft.tripType) {
+      case TripType.individual:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(TripBasicsStrings.travelingWithCompanion, style: AppTextStyles.bodyLg(color: AppColors.textDark)),
+                Switch(
+                  value: draft.travelingWithCompanion,
+                  activeThumbColor: AppColors.accentOrange,
+                  onChanged: draft.setTravelingWithCompanion,
+                ),
+              ],
+            ),
+            if (draft.travelingWithCompanion) ...[
+              const SizedBox(height: 12),
+              LabeledTextField(
+                label: TripBasicsStrings.companionName,
+                controller: companionNameController,
+                hintText: TripBasicsStrings.companionNameHint,
+              ),
+            ],
+          ],
+        );
+
+      case TripType.group:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LabeledTextField(
+              label: TripBasicsStrings.groupName,
+              controller: groupNameController,
+              hintText: TripBasicsStrings.groupNameHint,
+            ),
+            const SizedBox(height: 16),
+            CounterField(
+              label: TripBasicsStrings.members,
+              sublabel: TripBasicsStrings.membersSublabel,
+              value: draft.membersCount,
+              onChanged: draft.setMembersCount,
+            ),
+            const SizedBox(height: 12),
+            CounterField(
+              label: TripBasicsStrings.companions,
+              sublabel: TripBasicsStrings.companionsSublabel,
+              value: draft.companionsCount,
+              onChanged: draft.setCompanionsCount,
+            ),
+            const SizedBox(height: 16),
+            const InfoNote(text: TripBasicsStrings.groupPricingNote),
+          ],
+        );
+
+      case TripType.college:
+      case TripType.school:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LabeledTextField(
+              label: TripBasicsStrings.institutionName,
+              controller: institutionNameController,
+              hintText: draft.tripType == TripType.college
+                  ? TripBasicsStrings.institutionNameHintCollege
+                  : TripBasicsStrings.institutionNameHintSchool,
+            ),
+            const SizedBox(height: 16),
+            CounterField(
+              label: TripBasicsStrings.students,
+              sublabel: TripBasicsStrings.studentsSublabel,
+              value: draft.studentsCount,
+              onChanged: draft.setStudentsCount,
+            ),
+            const SizedBox(height: 12),
+            CounterField(
+              label: TripBasicsStrings.staff,
+              sublabel: TripBasicsStrings.staffSublabel,
+              value: draft.staffCount,
+              onChanged: draft.setStaffCount,
+            ),
+            const SizedBox(height: 16),
+            const InfoNote(text: TripBasicsStrings.institutionPricingNote),
+          ],
+        );
+    }
   }
 }

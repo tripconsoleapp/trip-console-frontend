@@ -33,6 +33,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<EmailAuthProvider>().clearError();
+    });
   }
 
   @override
@@ -173,13 +176,25 @@ class _EmailLoginForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LabeledTextField(label: LoginStrings.email, controller: emailController, hintText: LoginStrings.emailHint, keyboardType: TextInputType.emailAddress),
+        LabeledTextField(
+          label: LoginStrings.email,
+          controller: emailController,
+          hintText: LoginStrings.emailHint,
+          keyboardType: TextInputType.emailAddress,
+          prefixIcon: Icons.mail_outline_rounded,
+        ),
         const SizedBox(height: 16),
-        LabeledTextField(label: LoginStrings.password, controller: passwordController, hintText: '••••••••'),
+        LabeledTextField(
+          label: LoginStrings.password,
+          controller: passwordController,
+          hintText: '••••••••',
+          obscurable: true,
+          prefixIcon: Icons.lock_outline_rounded,
+        ),
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: () {},
+            onPressed: () => context.push(AppRouter.forgotPassword),
             child: Text(LoginStrings.forgotPassword, style: AppTextStyles.bodySm(color: AppColors.accentOrange)),
           ),
         ),
@@ -221,6 +236,22 @@ class _PhoneLoginForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.primaryGreen.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.info_outline_rounded, size: 16, color: AppColors.primaryGreen),
+              const SizedBox(width: 8),
+              Expanded(child: Text(LoginStrings.coordinatorNotice, style: AppTextStyles.bodySm())),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
         Text(EnterPhoneStrings.label, style: AppTextStyles.labelCaps()),
         const SizedBox(height: 8),
         Container(
@@ -265,6 +296,22 @@ class _PhoneLoginForm extends StatelessWidget {
             child: isLoading
                 ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.backgroundWhite))
                 : const Text(EnterPhoneStrings.sendOtp),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: RichText(
+            text: TextSpan(
+              style: AppTextStyles.bodySm(color: AppColors.textGrey),
+              children: [
+                const TextSpan(text: LoginStrings.newCoordinatorPrefix),
+                TextSpan(
+                  text: LoginStrings.contactAdmin,
+                  style: const TextStyle(color: AppColors.accentOrange, fontWeight: FontWeight.w600),
+                  recognizer: TapGestureRecognizer()..onTap = () {},
+                ),
+              ],
+            ),
           ),
         ),
       ],

@@ -60,18 +60,22 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(Icons.menu, color: AppColors.textDark),
-                  Text(HomeDashboardStrings.appName, style: AppTextStyles.h3(color: AppColors.textDark)),
+                  Text(HomeDashboardStrings.appName,
+                      style: AppTextStyles.h3(color: AppColors.textDark)),
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      const Icon(Icons.notifications_none_rounded, color: AppColors.textDark),
+                      const Icon(Icons.notifications_none_rounded,
+                          color: AppColors.textDark),
                       Positioned(
                         top: 0,
                         right: 0,
                         child: Container(
                           width: 8,
                           height: 8,
-                          decoration: const BoxDecoration(color: AppColors.accentOrange, shape: BoxShape.circle),
+                          decoration: const BoxDecoration(
+                              color: AppColors.accentOrange,
+                              shape: BoxShape.circle),
                         ),
                       ),
                     ],
@@ -92,42 +96,57 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                     ),
                     const SizedBox(height: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
                         color: AppColors.accentOrange,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         HomeDashboardStrings.organizerBadge,
-                        style: AppTextStyles.labelCaps(color: AppColors.backgroundWhite).copyWith(fontSize: 10),
+                        style: AppTextStyles.labelCaps(
+                                color: AppColors.backgroundWhite)
+                            .copyWith(fontSize: 10),
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(HomeDashboardStrings.subtitle, style: AppTextStyles.bodyLg(color: AppColors.textGrey)),
+                    Text(HomeDashboardStrings.subtitle,
+                        style: AppTextStyles.bodyLg(color: AppColors.textGrey)),
                     const SizedBox(height: 20),
-                    Text(HomeDashboardStrings.serviceOnlyLabel, style: AppTextStyles.labelCaps()),
+                    Text(HomeDashboardStrings.serviceOnlyLabel,
+                        style: AppTextStyles.labelCaps()),
                     const SizedBox(height: 8),
                     const Row(
                       children: [
-                        QuickActionChip(icon: Icons.hotel_rounded, label: HomeDashboardStrings.hotel),
+                        QuickActionChip(
+                            icon: Icons.hotel_rounded,
+                            label: HomeDashboardStrings.hotel),
                         SizedBox(width: 8),
-                        QuickActionChip(icon: Icons.directions_car_rounded, label: HomeDashboardStrings.vehicle),
+                        QuickActionChip(
+                            icon: Icons.directions_car_rounded,
+                            label: HomeDashboardStrings.vehicle),
                         SizedBox(width: 8),
-                        QuickActionChip(icon: Icons.restaurant_rounded, label: HomeDashboardStrings.restaurant),
+                        QuickActionChip(
+                            icon: Icons.restaurant_rounded,
+                            label: HomeDashboardStrings.restaurant),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    _PlanFullTripCard(onTap: () => context.push(AppRouter.tripBasics)),
+                    _PlanFullTripCard(
+                        onTap: () => context.push(AppRouter.tripBasics)),
                     const SizedBox(height: 12),
                     _PlanPilgrimageCard(onTap: () {}),
                     const SizedBox(height: 12),
                     Center(
                       child: TextButton.icon(
                         onPressed: () {},
-                        icon: const Icon(Icons.open_in_new_rounded, size: 14, color: AppColors.accentOrange),
+                        icon: const Icon(Icons.open_in_new_rounded,
+                            size: 14, color: AppColors.accentOrange),
                         label: Text(
                           HomeDashboardStrings.browseTemplates,
-                          style: AppTextStyles.bodySm(color: AppColors.accentOrange).copyWith(fontWeight: FontWeight.w600),
+                          style: AppTextStyles.bodySm(
+                                  color: AppColors.accentOrange)
+                              .copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -150,7 +169,9 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                           onPressed: () {},
                           child: Text(
                             '${HomeDashboardStrings.viewAll} →',
-                            style: AppTextStyles.bodySm(color: AppColors.accentOrange).copyWith(fontWeight: FontWeight.w600),
+                            style: AppTextStyles.bodySm(
+                                    color: AppColors.accentOrange)
+                                .copyWith(fontWeight: FontWeight.w600),
                           ),
                         ),
                       ],
@@ -167,7 +188,8 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 itemCount: _recommendations.length,
                 separatorBuilder: (_, __) => const SizedBox(width: 12),
-                itemBuilder: (context, index) => TripRecommendationCard(recommendation: _recommendations[index]),
+                itemBuilder: (context, index) => TripRecommendationCard(
+                    recommendation: _recommendations[index]),
               ),
             ),
             const SizedBox(height: 16),
@@ -201,8 +223,10 @@ class _PlanFullTripCard extends StatelessWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.map_rounded, color: AppColors.backgroundWhite, size: 28),
-                Icon(Icons.arrow_forward_rounded, color: AppColors.backgroundWhite),
+                Icon(Icons.map_rounded,
+                    color: AppColors.backgroundWhite, size: 28),
+                Icon(Icons.arrow_forward_rounded,
+                    color: AppColors.backgroundWhite),
               ],
             ),
             const SizedBox(height: 16),
@@ -213,7 +237,8 @@ class _PlanFullTripCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               HomeDashboardStrings.planFullTripBody,
-              style: AppTextStyles.bodySm(color: AppColors.backgroundWhite.withValues(alpha: 0.9)),
+              style: AppTextStyles.bodySm(
+                  color: AppColors.backgroundWhite.withValues(alpha: 0.9)),
             ),
           ],
         ),
@@ -238,12 +263,13 @@ class _PlanPilgrimageCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.backgroundWhite,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.accentOrange),
+          border: Border.all(color: const Color.fromARGB(255, 0, 149, 255)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.groups_rounded, color: AppColors.accentOrange, size: 28),
+            const Icon(Icons.groups_rounded,
+                color: AppColors.accentOrange, size: 28),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -252,7 +278,8 @@ class _PlanPilgrimageCard extends StatelessWidget {
                   style: AppTextStyles.h3(color: AppColors.accentOrange),
                 ),
                 const SizedBox(width: 4),
-                const Icon(Icons.arrow_forward_rounded, color: AppColors.accentOrange, size: 18),
+                const Icon(Icons.arrow_forward_rounded,
+                    color: AppColors.accentOrange, size: 18),
               ],
             ),
             const SizedBox(height: 4),

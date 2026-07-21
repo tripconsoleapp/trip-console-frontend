@@ -125,6 +125,61 @@ class VerifyEmailStrings {
   static const String securityNote = "Your email is only used for account verification.";
 }
 
+class ForgotPasswordStrings {
+  ForgotPasswordStrings._();
+
+  static const String appBarTitle = "Forgot Password";
+  static const String title = "Reset your password";
+  static const String subtitleEmail = "Enter your registered email and we'll send you a reset link.";
+  static const String subtitlePhone = "Enter your registered mobile number and we'll send you an OTP.";
+  static const String emailTab = "Email";
+  static const String phoneTab = "Phone";
+  static const String registeredEmail = "REGISTERED EMAIL";
+  static const String emailHint = "you@school.edu";
+  static const String registeredPhone = "REGISTERED MOBILE NUMBER";
+  static const String phoneHint = "98765 43210";
+  static const String sendResetLink = "Send Reset Link";
+  static const String sendOtp = "Send OTP";
+  static const String backToLogin = "Back to Login";
+  static const String checkInboxTitle = "Check your inbox";
+  static const String checkInboxPrefix = "We sent a reset link to ";
+  static const String resendEmail = "Resend email";
+  static const String invalidEmail = "Enter a valid email address";
+  static const String invalidPhone = "Enter a valid 10-digit mobile number";
+}
+
+class ResetPasswordStrings {
+  ResetPasswordStrings._();
+
+  static const String appBarTitle = "Reset Password";
+  static const String title = "Create a new password";
+  static const String subtitle = "Must be at least 8 characters.";
+  static const String newPassword = "NEW PASSWORD";
+  static const String confirmPassword = "CONFIRM PASSWORD";
+  static const String updatePassword = "Update Password";
+  static const String passwordTooShort = "Password must be at least 8 characters";
+  static const String passwordsDontMatch = "Passwords don't match";
+  static const String successTitle = "Password updated!";
+  static const String successBody = "Your security is our priority. You can now login with your new credentials.";
+  static const String goToLogin = "Go to Login";
+  static const String linkExpiredTitle = "Link expired";
+  static const String linkExpiredBody = "For your security, reset links expire after 24 hours. Please request a new one.";
+  static const String requestNewLink = "Request New Link";
+  static const String backToLogin = "Back to Login";
+}
+
+class SessionExpiredStrings {
+  SessionExpiredStrings._();
+
+  static const String appBarTitle = "TripConsole";
+  static const String title = "Session expired";
+  static const String body = "For your security, you've been logged out. Please log in again to continue.";
+  static const String logInAgain = "Log In Again";
+  static const String needHelpPrefix = "Need help? ";
+  static const String contactSupport = "Contact support.";
+  static const String footerCopyright = "© 2026 Travel Concierge";
+}
+
 class LoginStrings {
   LoginStrings._();
 
@@ -140,6 +195,9 @@ class LoginStrings {
   static const String or = "OR";
   static const String noAccountPrefix = "Don't have an account? ";
   static const String signUp = "Sign Up";
+  static const String coordinatorNotice = "Specialized access for Field Coordinators only.";
+  static const String newCoordinatorPrefix = "New coordinator? ";
+  static const String contactAdmin = "Contact Admin";
 }
 
 class HomeDashboardStrings {
@@ -182,6 +240,26 @@ class TripBasicsStrings {
   static const String travelingWithCompanion = "Traveling with a companion?";
   static const String companionName = "COMPANION NAME";
   static const String companionNameHint = "Enter companion's full name";
+
+  static const String groupName = "GROUP NAME";
+  static const String groupNameHint = "Enter group name";
+  static const String members = "Members";
+  static const String membersSublabel = "Primary participants";
+  static const String companions = "Companions";
+  static const String companionsSublabel = "Additional guests";
+  static const String groupPricingNote =
+      "Pricing is calculated per member. Companions may be subject to different rates depending on the destination.";
+
+  static const String institutionName = "INSTITUTION NAME";
+  static const String institutionNameHintCollege = "Enter college or university name";
+  static const String institutionNameHintSchool = "Enter school or institution name";
+  static const String students = "Students";
+  static const String studentsSublabel = "Cost applicable";
+  static const String staff = "Staff";
+  static const String staffSublabel = "No cost applied";
+  static const String institutionPricingNote =
+      "Per-student cost is calculated for enrolled students. Staff travel is included at no extra cost.";
+
   static const String emergencyContact = "Emergency Contact";
   static const String name = "NAME";
   static const String contactNameHint = "Contact person name";

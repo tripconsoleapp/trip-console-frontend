@@ -40,6 +40,12 @@ class EmailAuthProvider extends ChangeNotifier {
       errorMessage = e.message ?? 'Could not create your account. Please try again.';
       notifyListeners();
       return false;
+    } catch (_) {
+      // Non-Firebase failure (e.g. Firebase not configured in this build).
+      status = EmailAuthStatus.error;
+      errorMessage = 'Sign up is unavailable right now. Please try again later.';
+      notifyListeners();
+      return false;
     }
   }
 
@@ -58,7 +64,22 @@ class EmailAuthProvider extends ChangeNotifier {
       errorMessage = e.message ?? 'Incorrect email or password.';
       notifyListeners();
       return false;
+    } catch (_) {
+      // Non-Firebase failure (e.g. Firebase not configured in this build).
+      status = EmailAuthStatus.error;
+      errorMessage = 'Login is unavailable right now. Please try again later.';
+      notifyListeners();
+      return false;
     }
+  }
+
+  /// Clears any error left over from a different screen sharing this
+  /// provider (e.g. a failed login shouldn't show up on Sign Up).
+  void clearError() {
+    if (errorMessage == null) return;
+    errorMessage = null;
+    status = EmailAuthStatus.idle;
+    notifyListeners();
   }
 
   void resendVerification() {

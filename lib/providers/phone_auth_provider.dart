@@ -76,6 +76,12 @@ class PhoneAuthProvider extends ChangeNotifier {
       errorMessage = e.message ?? 'Incorrect code. Please try again.';
       notifyListeners();
       return false;
+    } catch (_) {
+      // Non-Firebase failure (e.g. Firebase not configured in this build).
+      status = PhoneAuthStatus.error;
+      errorMessage = 'Verification is unavailable right now. Please try again later.';
+      notifyListeners();
+      return false;
     }
   }
 
