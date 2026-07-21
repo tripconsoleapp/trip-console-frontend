@@ -61,6 +61,13 @@ import '../screens/my_trips/payment_failed_screen.dart';
 import '../screens/my_trips/payment_receipt_screen.dart';
 import '../screens/my_trips/locked_itinerary_screen.dart';
 import '../screens/my_trips/locked_itinerary_day_screen.dart';
+import '../screens/service_booking/book_hotel_stay_details_screen.dart';
+import '../screens/service_booking/select_stay_location_screen.dart';
+import '../screens/service_booking/select_stay_dates_screen.dart';
+import '../screens/service_booking/room_type_preference_screen.dart';
+import '../screens/service_booking/hotel_search_results_screen.dart';
+import '../screens/service_booking/service_hotel_detail_screen.dart';
+import '../screens/service_booking/hotel_booking_summary_screen.dart';
 
 /// Central route table. New screens register a route here as they're
 /// converted from Figma, in the same order as the project's screen list.
@@ -120,6 +127,13 @@ class AppRouter {
   static const String paymentReceipt = '/my-trips/payment/receipt';
   static const String lockedItinerary = '/my-trips/itinerary';
   static const String lockedItineraryDay = '/my-trips/itinerary/day';
+  static const String bookHotel = '/service/hotel';
+  static const String selectStayLocation = '/service/hotel/location';
+  static const String selectStayDates = '/service/hotel/dates';
+  static const String roomTypePreference = '/service/hotel/room-type';
+  static const String hotelSearchResults = '/service/hotel/results';
+  static const String serviceHotelDetail = '/service/hotel/detail';
+  static const String hotelBookingSummary = '/service/hotel/summary';
 
   static GoRouter router(BuildContext context) {
     return GoRouter(
@@ -253,6 +267,16 @@ class AppRouter {
             return LockedItineraryDayScreen(trip: extra.trip, day: extra.day, dayTitle: extra.title);
           },
         ),
+        GoRoute(path: bookHotel, builder: (ctx, state) => const BookHotelStayDetailsScreen()),
+        GoRoute(path: selectStayLocation, builder: (ctx, state) => const SelectStayLocationScreen()),
+        GoRoute(path: selectStayDates, builder: (ctx, state) => const SelectStayDatesScreen()),
+        GoRoute(path: roomTypePreference, builder: (ctx, state) => const RoomTypePreferenceScreen()),
+        GoRoute(path: hotelSearchResults, builder: (ctx, state) => const HotelSearchResultsScreen()),
+        GoRoute(
+          path: serviceHotelDetail,
+          builder: (ctx, state) => ServiceHotelDetailScreen(hotel: state.extra as HotelOption),
+        ),
+        GoRoute(path: hotelBookingSummary, builder: (ctx, state) => const HotelBookingSummaryScreen()),
       ],
       errorBuilder: (ctx, state) => Scaffold(
         body: Center(child: Text('Page not found: ${state.uri.path}')),

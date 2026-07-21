@@ -145,10 +145,10 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                           const SizedBox(height: 20),
                           Text(HomeDashboardStrings.serviceOnlyLabel, style: AppTextStyles.labelCaps()),
                           const SizedBox(height: 8),
-                          const Row(
+                          Row(
                             children: [
-                              QuickActionChip(icon: Icons.hotel_rounded, label: HomeDashboardStrings.hotel),
-                              SizedBox(width: 8),
+                              QuickActionChip(icon: Icons.hotel_rounded, label: HomeDashboardStrings.hotel, onTap: () => context.push(AppRouter.bookHotel)),
+                              const SizedBox(width: 8),
                               QuickActionChip(icon: Icons.directions_car_rounded, label: HomeDashboardStrings.vehicle),
                               SizedBox(width: 8),
                               QuickActionChip(icon: Icons.restaurant_rounded, label: HomeDashboardStrings.restaurant),

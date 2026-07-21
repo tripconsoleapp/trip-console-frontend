@@ -15,6 +15,9 @@ class HotelOption {
     this.verified = false,
     this.badge,
     this.insufficientCapacity = false,
+    this.roomCount,
+    this.sinceYear,
+    this.townDistanceKm,
   });
 
   final String name;
@@ -31,4 +34,9 @@ class HotelOption {
   /// True when this property can't reasonably house the group at all
   /// (shown as "Max N guests — insufficient" instead of a Select button).
   final bool insufficientCapacity;
+
+  // Used by the standalone Service-Only booking flow's richer detail view.
+  final int? roomCount;
+  final int? sinceYear;
+  final int? townDistanceKm;
 }

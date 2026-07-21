@@ -798,6 +798,160 @@ class PaymentFailedStrings {
   static const String payLater = "Pay Later";
 }
 
+class BookHotelStrings {
+  BookHotelStrings._();
+
+  static const String title = "Book Hotel";
+  static const String saveDraft = "Save Draft";
+  static const String hotelOnlyBanner = "Hotel Only Booking · No full trip required";
+  static const String stepPrefix = "STEP 1 OF 5 — STAY DETAILS";
+  static const String bookingFor = "Booking for";
+  static const String tripType = "TRIP TYPE";
+  static const String destinationAndDates = "DESTINATION & DATES";
+  static const String stayLocation = "STAY LOCATION";
+  static const String stayLocationHint = "Where are you heading?";
+  static const String purposeOfStay = "PURPOSE OF STAY";
+  static const String purposeOfStayHint = "e.g. Team offsite, corporate event";
+  static const String checkIn = "CHECK-IN";
+  static const String checkOut = "CHECK-OUT";
+  static const String selectDates = "Select dates";
+  static const String nightsSuffix = "NIGHTS";
+  static const String groupRequirements = "GROUP REQUIREMENTS";
+  static const String guests = "GUESTS";
+  static const String soloTraveler = "SOLO TRAVELER";
+  static const String roomsRequired = "Rooms Required";
+  static const String autoCalculatedPrefix = "Auto-calculated: ~";
+  static const String roomPreferences = "ROOM PREFERENCES";
+  static const String hotelRating = "HOTEL RATING";
+  static const String amenities = "AMENITIES";
+  static const String specialRequirements = "SPECIAL REQUIREMENTS";
+  static const String vegetarianMeals = "Vegetarian meals included";
+  static const String breakfastIncluded = "Breakfast included";
+  static const String acRooms = "AC rooms required";
+  static const String conferenceHall = "Conference hall";
+  static const String accessibleRooms = "Accessible rooms needed";
+  static const String earlyCheckIn = "Early check-in";
+  static const String estimatedTotal = "ESTIMATED TOTAL";
+  static const String perPerson = "PER PERSON";
+  static const String searchHotels = "Search Hotels";
+}
+
+class SelectStayLocationStrings {
+  SelectStayLocationStrings._();
+
+  static const String title = "Select Stay Location";
+  static const String searchHint = "Search city, town or landmark…";
+  static const String mapPreviewPrefix = "MAP PREVIEW: ";
+  static const String recentAndSuggested = "RECENT & SUGGESTED";
+  static const String confirmDestination = "Confirm Destination";
+}
+
+class SelectStayDatesStrings {
+  SelectStayDatesStrings._();
+
+  static const String title = "Select Stay Dates";
+  static const String checkInPrefix = "Check-in: ";
+  static const String checkOutPrefix = "Check-out: ";
+  static const String confirmStayDates = "Confirm Stay Dates";
+}
+
+class RoomTypePreferenceStrings {
+  RoomTypePreferenceStrings._();
+
+  static const String title = "Room Type Preference";
+  static const String tripleSharing = "Triple Sharing";
+  static const String tripleSharingBody = "3 per room, most economical";
+  static const String dormitory = "Dormitory";
+  static const String dormitoryBody = "8-12 per room, lowest cost";
+  static const String doubleRoom = "Double Room";
+  static const String doubleRoomBody = "2 per room, for teachers";
+  static const String applyRoomType = "Apply Room Type";
+}
+
+class HotelResultsStrings {
+  HotelResultsStrings._();
+
+  static const String title = "Hotel Results";
+  static const String filterAll = "All";
+  static const String filterBudget = "Budget";
+  static const String filterHeritage = "Heritage";
+  static const String filterWithMeal = "With Meal";
+  static const String hotelsFoundSuffix = "HOTELS";
+  static const String paxSuffix = "PAX";
+  static const String viewRooms = "View Rooms";
+  static const String perNight = "/night";
+  static const String total = "Total";
+}
+
+class ServiceHotelDetailStrings {
+  ServiceHotelDetailStrings._();
+
+  static const String capacity = "CAPACITY";
+  static const String rating = "RATING";
+  static const String since = "SINCE";
+  static const String town = "TOWN";
+  static const String about = "About";
+  static const String amenities = "Amenities";
+  static const String roomTypes = "Room Types";
+  static const String selected = "Selected";
+  static const String select = "Select";
+  static const String fullyBooked = "N/A";
+  static const String mealPlan = "Meal Plan";
+  static const String reviews = "Reviews";
+  static const String seeAll = "See all";
+  static const String roomsNightsPrefix = "Rooms · ";
+  static const String nightsSuffix = " Nights";
+  static const String proceed = "Proceed";
+}
+
+class SelectMealPlanStrings {
+  SelectMealPlanStrings._();
+
+  static const String title = "Select Meal Plan";
+  static const String roomOnly = "Room Only (EP)";
+  static const String continentalPlan = "Continental Plan (CP)";
+  static const String continentalBody = "Breakfast only";
+  static const String modifiedAmerican = "Modified American Plan (MAP)";
+  static const String modifiedAmericanBody = "Breakfast + Dinner";
+  static const String perDaySuffix = "/day";
+  static const String confirmMealPlan = "Confirm Meal Plan";
+}
+
+class HotelBookingSummaryStrings {
+  HotelBookingSummaryStrings._();
+
+  static const String title = "Hotel Booking Summary";
+  static const String stepPrefix = "STEP 4 OF 5 — REVIEW BOOKING";
+  static const String stayDetails = "Stay Details";
+  static const String hotel = "Hotel";
+  static const String roomType = "Room Type";
+  static const String checkIn = "Check-In";
+  static const String checkOut = "Check-Out";
+  static const String duration = "Duration";
+  static const String guests = "Guests";
+  static const String mealPlan = "Meal Plan";
+  static const String costBreakdown = "Cost Breakdown";
+  static const String roomCost = "Room Cost";
+  static const String mealCost = "Meal Cost";
+  static const String taxes = "Taxes (18% GST)";
+  static const String totalAmount = "Total Amount";
+  static const String allInclusive = "ALL INCLUSIVE";
+  static const String cancellationPolicy = "Cancellation Policy";
+  static const String cancellationPolicyBody = "Cancellations made up to 7 days before check-in will receive a 100% refund. For cancellations within 48 hours, a 50% refund is applicable. No-shows are non-refundable.";
+  static const String hotelManager = "Hotel Manager (Verified Contact)";
+  static const String confirmAndProceed = "Confirm & Proceed";
+}
+
+class ConfirmHotelBookingStrings {
+  ConfirmHotelBookingStrings._();
+
+  static const String title = "Confirm Booking";
+  static const String totalPrice = "TOTAL PRICE";
+  static const String confirmCheckbox = "I confirm the stay details and group count are correct and agree to the resort's cancellation policy.";
+  static const String confirmHotelBooking = "Confirm Hotel Booking";
+  static const String goBackAndEdit = "Go Back & Edit";
+}
+
 class LockedItineraryStrings {
   LockedItineraryStrings._();
 

@@ -582,3 +582,77 @@ trip's subtitle (`"XD"` parsed via regex, defaulting to 3) and
 approach as every other derived-data screen in this app. Verified live:
 Kerala Pilgrimage Tour (fully paid) → View Itinerary → Schedule Overview →
 Day 1 detail, all rendering correctly. `flutter analyze` clean.
+
+---
+
+## 2026-07-21 — Session 7: Standalone Hotel Only Booking flow ("Service Only")
+
+The user supplied 5 new screenshots of a 5-step Hotel Booking wizard and
+clarified it's the **standalone Service-Only booking path** — reached from
+Home Dashboard's "Hotel" quick-action chip (previously dead, no `onTap`) —
+not a revision of the trip wizard's existing in-trip Hotel step. Built as a
+fully separate flow with its own provider, sharing only data models with
+the trip wizard.
+
+| Screen | File | Step |
+|---|---|---|
+| Book Hotel (Stay Details) | `lib/screens/service_booking/book_hotel_stay_details_screen.dart` | 1/5 |
+| Select Stay Location | `lib/screens/service_booking/select_stay_location_screen.dart` | sub-screen |
+| Select Stay Dates (custom range calendar) | `lib/screens/service_booking/select_stay_dates_screen.dart` | sub-screen |
+| Room Type Preference | `lib/screens/service_booking/room_type_preference_screen.dart` | sub-screen |
+| Hotel Results (filterable listing) | `lib/screens/service_booking/hotel_search_results_screen.dart` | 2/5 |
+| Hotel Detail (stats/amenities/room types/meal plan/reviews) | `lib/screens/service_booking/service_hotel_detail_screen.dart` | 3/5 |
+| Select Meal Plan (bottom sheet) | `lib/widgets/select_meal_plan_sheet.dart` | modal |
+| Hotel Booking Summary (recap + cost breakdown) | `lib/screens/service_booking/hotel_booking_summary_screen.dart` | 4/5 |
+| Confirm Booking (bottom sheet, checkbox gate) | `lib/widgets/confirm_hotel_booking_sheet.dart` | 5/5 |
+
+New provider: `lib/providers/hotel_booking_provider.dart` — holds the full
+draft (booking type, location, dates, guest counts, room/meal selection)
+and all derived cost getters (`roomCost`, `mealCost`, `taxes` at 18% GST,
+`grandTotal`). Registered in `main.dart`'s `MultiProvider`.
+
+### Decisions made without asking (flag if wrong)
+
+- **Reused `TripType`** (`school`/`college`/`group`/`individual`) for the
+  booking-type chips (Solo/School/College/Corporate) instead of a new
+  parallel enum, same pattern as everywhere else in the app that needs a
+  4-way org-type split.
+- **Extended `HotelOption` additively** (`roomCount`, `sinceYear`,
+  `townDistanceKm`, all nullable) rather than forking a second hotel model,
+  since the richer detail screen is still describing the same kind of
+  entity the trip wizard's `SelectHotelScreen`/`HotelDetailScreen` use.
+- **Room-count math**: `HotelBookingProvider.roomsNeeded` uses the
+  *selected* room type's actual `guestsPerRoom` once a hotel/room is
+  picked, falling back to a generic capacity heuristic (from the Room Type
+  Preference chip) before that — so the Stay Details screen's "suggested N
+  rooms" estimate and the Hotel Detail/Summary screens' real total always
+  agree once a room is chosen.
+- **Meal plan UI**: the screenshots show meal plan as inline checkboxes on
+  one screen and as a modal on another; picked one mechanism (a bottom
+  sheet, `SelectMealPlanSheet`) and reused it everywhere a meal plan is
+  chosen or changed, to avoid two divergent UIs for the same choice.
+- **No dedicated success screen** was shown in this screenshot batch for
+  the final confirmation. On "Confirm Hotel Booking", the provider resets
+  and the user is routed back to Home with a confirmation SnackBar
+  ("Hotel booking confirmed. Our team will reach out shortly."), the same
+  lightweight pattern used for other unscreenshotted terminal states.
+- Wired Home Dashboard's "Hotel" `QuickActionChip.onTap` to
+  `AppRouter.bookHotel` — it had no destination before this session.
+
+### Explicitly deferred (not built, not silently skipped)
+
+- Only **Hotel** was shown as a standalone Service-Only flow in the
+  screenshots. Vehicle and Restaurant service-only equivalents (the other
+  two "Service Only" quick-action chips on Home) were not — those chips
+  remain unwired pending screenshots of their own flows.
+
+Verified live end-to-end in the browser preview (new tab, full click
+through): Home → Hotel chip → Stay Details → Select Location → Select
+Dates (range picker, "5 NIGHTS" pill) → Room Type Preference → Search
+Hotels → Hotel Results → Hotel Detail (room selection updates running
+total) → Select Meal Plan (total recalculates: ₹2800 room + ₹700 meal =
+₹3500) → Booking Summary (₹3500 + 18% GST = ₹4130 total, matches) →
+Confirm Booking sheet (checkbox correctly gates the Confirm button) →
+confirmed → back on Home with success SnackBar. `flutter analyze` clean
+(zero errors/warnings; only pre-existing `prefer_const_constructors` info
+lints).
