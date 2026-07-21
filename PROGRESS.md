@@ -931,3 +931,61 @@ Selection → KSRTC card) now opens the same real bus list instead of the
 old hardcoded shortcut. `flutter analyze` clean throughout all 5 phases
 (zero errors/warnings; only pre-existing `prefer_const_constructors`
 info lints, 81 total consistent with the rest of the app).
+
+---
+
+## 2026-07-21 — Session 10: Correcting a screen mix-up in the Pilgrimage Console
+
+The user supplied clearer/zoomed screenshots of two Session 9 frames
+that had been misread. Audited and confirmed:
+
+- **"Trip Structure Selection"** was built as a Large Group / Small
+  Group chooser. The actual Figma content is a **Customise vs Fixed
+  Package** choice (build the trip yourself vs a pre-bundled fixed-rate
+  KSRTC package) — nothing to do with headcount.
+- **"Seat Count & Capacity"** was built as manual Pilgrims/Staff
+  `CounterField` entry. The actual Figma content is the **Large Group /
+  Small Group** card chooser — group size is picked as a category, not
+  typed in. Confirmed by the downstream KSRTC Bus Search screen, whose
+  "PASSENGER COUNT" field is shown auto-filled and lock-icon'd, not
+  editable.
+
+Fixed by swapping the two screens' content and reworking
+`PilgrimageProvider`: replaced `structureChoice`/`pilgrimCount`/
+`staffCount` with `structureType` (Customise/Fixed Package) and
+`groupSizeCategory` (Large/Small Group); `totalPilgrims` is now derived
+from the category (46 for Large, 18 for Small — illustrative, not
+authoritative) instead of summed from manual counters. Also added the
+missing 4th field (Passenger Count, auto-filled + lock icon) to KSRTC
+Bus Search and renamed its button from "Search Buses" to "Submit" to
+match the source.
+
+Files touched: `lib/providers/pilgrimage_provider.dart`,
+`lib/screens/pilgrimage/pilgrimage_trip_structure_screen.dart`,
+`lib/screens/pilgrimage/pilgrimage_seat_count_screen.dart`,
+`lib/screens/pilgrimage/pilgrimage_bus_search_screen.dart`,
+`lib/utils/app_constants.dart` (`PilgrimageTripStructureStrings`/
+`PilgrimageSeatCountStrings`/`PilgrimageBusSearchStrings` rewritten).
+
+### Explicitly deferred (not built, not silently skipped)
+
+- The same screenshots' Figma outline panel shows several more frame
+  names with no visible content yet: **"Car Details & Confirmation"**,
+  **"Car Selection - 4 Seater (Empty State)"**, **"Car Selection - 7
+  Seater (Standardized)"**, **"Car Selection Listing - 6 Seater"**,
+  **"Car Selection Listing - 5 Seater"**. These look like they belong to
+  the Self-Managed pilgrimage path's own vehicle-selection step
+  (possibly a pilgrimage-specific variant of the existing generic
+  Select Vehicle Type → Vendor Listing → Vehicle Detail flow, which
+  today shows generic private operators). Not built — no screenshot of
+  their actual content exists yet, and guessing their design would risk
+  contradicting the real Figma source once it's shared.
+
+Verified live in the browser preview: Trip Structure Selection
+(Customise/Fixed Package cards, matches) → Seat Count & Capacity
+(Large/Small Group cards, matches) → Large Group → Select Vehicle Type
+(Self-Managed default routes here correctly, already-existing screen
+unchanged) → separately re-verified the KSRTC Collaboration path's Bus
+Search screen (all 4 fields incl. "46 Passengers", lock icons, "Submit"
+button, matches) → Submit → KSRTC Buses ("46 Passengers" correctly
+threaded through). `flutter analyze` clean (zero errors/warnings).

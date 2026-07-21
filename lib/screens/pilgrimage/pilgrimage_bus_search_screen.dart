@@ -46,7 +46,7 @@ class PilgrimageBusSearchScreen extends StatelessWidget {
                   ksrtc.splitMemberCount = pilgrimage.totalPilgrims;
                   context.push(AppRouter.ksrtcBusList);
                 },
-                child: Text('${PilgrimageBusSearchStrings.searchBuses} →', style: AppTextStyles.button()),
+                child: Text('${PilgrimageBusSearchStrings.submit} →', style: AppTextStyles.button()),
               ),
             ),
           ),
@@ -63,6 +63,8 @@ class PilgrimageBusSearchScreen extends StatelessWidget {
             _AutoFilledField(label: PilgrimageBusSearchStrings.to, value: pilgrimage.destination),
             const SizedBox(height: 12),
             _AutoFilledField(label: PilgrimageBusSearchStrings.date, value: _formatDate(DateTime.now().add(const Duration(days: 21)))),
+            const SizedBox(height: 12),
+            _AutoFilledField(label: PilgrimageBusSearchStrings.passengerCount, value: '${pilgrimage.totalPilgrims}${PilgrimageBusSearchStrings.passengersSuffix}'),
           ],
         ),
       ),
@@ -102,7 +104,12 @@ class _AutoFilledField extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
           decoration: BoxDecoration(color: const Color(0xFFF5F3F3), borderRadius: BorderRadius.circular(12)),
-          child: Text(value, style: AppTextStyles.bodyLg(color: AppColors.textDark)),
+          child: Row(
+            children: [
+              Expanded(child: Text(value, style: AppTextStyles.bodyLg(color: AppColors.textDark))),
+              const Icon(Icons.lock_outline_rounded, size: 16, color: AppColors.textGrey),
+            ],
+          ),
         ),
       ],
     );

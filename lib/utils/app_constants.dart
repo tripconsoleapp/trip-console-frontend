@@ -1461,17 +1461,20 @@ class PilgrimageTripStructureStrings {
   static const String breadcrumb = "PILGRIMAGE CONSOLE → KSRTC COLLABORATION";
   static const String title = "Trip Structure Selection";
   static const String heading = "How do you want to structure this trip?";
-  static const String body = "Choose whether to build the package yourself or use a fixed KSRTC rate for your pilgrimage trip.";
-  static const String largeGroupTitle = "Large Group";
-  static const String largeGroupSubtitle = "35 or more pilgrims";
-  static const String largeGroupBadge = "FULL CUSTOMISATION";
-  static const String largeGroupBody = "Full control over bus count, package structure, and vehicle selection for your pilgrimage trip.";
+  static const String body = "Choose whether to build the package yourself or use a fixed KSRTC rate.";
+  static const String customiseTitle = "Customise";
+  static const String customiseBadge = "FULL CONTROL";
+  static const String customiseBody = "Choose your own vehicle type, bus count, stay, and meal plan — build the trip exactly how you want.";
+  static const String customiseTag1 = "Choose Vehicle";
+  static const String customiseTag2 = "Flexible Pricing";
   static const String customiseTrip = "Customise Trip";
-  static const String smallGroupTitle = "Small Group";
-  static const String smallGroupSubtitle = "Under 35 pilgrims";
-  static const String smallGroupBadge = "FIXED RATE";
-  static const String smallGroupBody = "Use a fixed KSRTC group rate — faster setup with less customisation needed.";
-  static const String useFixedRate = "Use Fixed Rate";
+  static const String fixedPackageTitle = "Fixed Package";
+  static const String fixedPackageBadge = "FIXED GOVERNMENT RATE";
+  static const String fixedPackageBody = "A pre-bundled KSRTC pilgrimage package at a fixed rate — faster setup with minimal decisions.";
+  static const String fixedPackageTag1 = "Pre-Bundled Rate";
+  static const String fixedPackageTag2 = "Faster Setup";
+  static const String chooseFixedPackage = "Choose Fixed Package";
+  static const String fixedPackageNote = "Fixed Package still requires selecting a vehicle source — this determines pickup logistics for your group.";
 }
 
 class PilgrimageSeatCountStrings {
@@ -1481,9 +1484,20 @@ class PilgrimageSeatCountStrings {
   static const String title = "Seat Count & Capacity";
   static const String heading = "How many are travelling?";
   static const String body = "Group size determines how much customisation KSRTC allows for your pilgrimage trip.";
-  static const String pilgrims = "Pilgrims";
-  static const String staff = "Staff / Coordinators";
-  static const String continueLabel = "Continue";
+  static const String largeGroupTitle = "Large Group";
+  static const String largeGroupSubtitle = "35 or more pilgrims";
+  static const String largeGroupBadge = "FULL CUSTOMISATION";
+  static const String largeGroupBody = "Full control over bus type, package structure, and vehicle selection for your group. Ideal for temple committees and organized parish journeys.";
+  static const String largeGroupTag1 = "Multiple Bus Options";
+  static const String largeGroupTag2 = "Custom Packages";
+  static const String continueLargeGroup = "Continue with Large Group";
+  static const String smallGroupTitle = "Small Group";
+  static const String smallGroupSubtitle = "Under 35 pilgrims";
+  static const String smallGroupBadge = "QUICK SETUP";
+  static const String smallGroupBody = "A faster, simplified path with standard KSRTC seating — no bus-level customisation needed. Perfect for family pilgrimages or small circles.";
+  static const String smallGroupTag1 = "Shared Seating";
+  static const String smallGroupTag2 = "Faster Booking";
+  static const String continueSmallGroup = "Continue with Small Group";
 }
 
 class PilgrimageBusSearchStrings {
@@ -1496,8 +1510,10 @@ class PilgrimageBusSearchStrings {
   static const String from = "FROM";
   static const String to = "TO";
   static const String date = "DATE";
+  static const String passengerCount = "PASSENGER COUNT";
+  static const String passengersSuffix = " Passengers";
   static const String autoFilled = "AUTO-FILLED";
-  static const String searchBuses = "Search Buses";
+  static const String submit = "Submit";
 }
 
 class LockedItineraryStrings {
