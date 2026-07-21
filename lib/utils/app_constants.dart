@@ -952,6 +952,174 @@ class ConfirmHotelBookingStrings {
   static const String goBackAndEdit = "Go Back & Edit";
 }
 
+class BookRestaurantStrings {
+  BookRestaurantStrings._();
+
+  static const String title = "Book Restaurant";
+  static const String restaurantOnlyBanner = "Restaurant / Catering Only · No full trip required";
+  static const String stepPrefix = "STEP 1 OF 5 — MEAL REQUIREMENTS";
+  static const String tripType = "TRIP TYPE";
+  static const String mealLocation = "MEAL LOCATION";
+  static const String mealLocationHint = "Where do you need meals?";
+  static const String mealDates = "MEAL DATE(S)";
+  static const String selectDates = "Select date(s)";
+  static const String daysSelectedSuffix = " days selected";
+  static const String mealsRequired = "MEALS REQUIRED";
+  static const String breakfast = "Breakfast";
+  static const String lunch = "Lunch";
+  static const String dinner = "Dinner";
+  static const String editHeadcounts = "Edit headcounts";
+  static const String groupRequirements = "GROUP REQUIREMENTS";
+  static const String dietPreference = "DIET PREFERENCE";
+  static const String vegOnly = "Veg Only";
+  static const String nonVegAvailable = "Non-veg available";
+  static const String both = "Both";
+  static const String cateringStyle = "CATERING STYLE";
+  static const String buffet = "Buffet";
+  static const String packedLunch = "Packed Lunch / Tiffin";
+  static const String preOrderedFixedMenu = "Pre-ordered Fixed Menu";
+  static const String estimatedTotal = "ESTIMATED TOTAL";
+  static const String perPerson = "PER PERSON";
+  static const String searchRestaurants = "Search Restaurants";
+}
+
+class SelectMealLocationStrings {
+  SelectMealLocationStrings._();
+
+  static const String title = "Select Meal Location";
+  static const String searchHint = "Search restaurant area or locality…";
+  static const String mapPreviewPrefix = "MAP PREVIEW: ";
+  static const String recentAndSuggested = "RECENT & SUGGESTED";
+  static const String confirmMealLocation = "Confirm Meal Location";
+}
+
+class SelectMealDatesStrings {
+  SelectMealDatesStrings._();
+
+  static const String title = "Select Meal Dates";
+  static const String selectedDates = "SELECTED DATES";
+  static const String select7Days = "Select 7 Days";
+  static const String weekdaysOnly = "Weekdays Only";
+  static const String clearAll = "Clear All";
+  static const String confirmDatesPrefix = "Confirm Dates (";
+  static const String confirmDatesSuffix = " selected)";
+}
+
+class SelectMealTypesStrings {
+  SelectMealTypesStrings._();
+
+  static const String title = "Select Meal Types";
+  static const String countsPrefilledNote = "Counts are pre-filled from your group size. Adjust per meal if some students skip.";
+  static const String breakfast = "Breakfast";
+  static const String lunch = "Lunch";
+  static const String dinner = "Dinner";
+  static const String notSelected = "Not selected";
+  static const String selected = "Selected";
+  static const String headcountPerMeal = "HEADCOUNT PER MEAL";
+  static const String confirmMealTypesPrefix = "Confirm Meal Types (";
+}
+
+class RestaurantSearchResultsStrings {
+  RestaurantSearchResultsStrings._();
+
+  static const String title = "Restaurant Results";
+  static const String filterAll = "All";
+  static const String filterPureVeg = "Pure Veg";
+  static const String filterBuffet = "Buffet";
+  static const String filterCater = "Cater";
+  static const String restaurantsFoundSuffix = "RESTAURANTS";
+  static const String paxSuffix = "PAX";
+  static const String viewMenu = "View Menu";
+  static const String perHead = "/head";
+}
+
+class RestaurantMenuPlanningStrings {
+  RestaurantMenuPlanningStrings._();
+
+  static const String capacity = "CAPACITY";
+  static const String rating = "RATING";
+  static const String dietary = "DIETARY";
+  static const String since = "SINCE";
+  static const String about = "About";
+  static const String vegMenu = "Veg Menu";
+  static const String overview = "Overview";
+  static const String groupDeals = "Group Deals";
+  static const String selectedForPrefix = "Selected for ";
+  static const String selectedForSuffix = " people";
+  static const String reviewDietarySummary = "Review Dietary Summary";
+  static const String proceed = "Proceed";
+}
+
+class DietarySummaryStrings {
+  DietarySummaryStrings._();
+
+  static const String title = "Dietary Summary";
+  static const String readyToShare = "Ready to share with your restaurant";
+  static const String day = "Day";
+  static const String portions = "portions";
+  static const String close = "Close";
+}
+
+class MealBookingSummaryStrings {
+  MealBookingSummaryStrings._();
+
+  static const String title = "Meal Booking Summary";
+  static const String stepPrefix = "STEP 4 OF 5 — REVIEW BOOKING";
+  static const String mealDetails = "Meal Details";
+  static const String location = "Location";
+  static const String schedule = "Schedule";
+  static const String mealType = "Meal Type";
+  static const String dietaryPreferences = "Dietary Preferences";
+  static const String totalGuests = "Total Guests";
+  static const String participants = "Participants";
+  static const String costBreakdown = "Cost Breakdown";
+  static const String serviceCharge = "Service Charge (5%)";
+  static const String totalPayable = "Total Payable";
+  static const String bookingTerms = "Booking Terms";
+  static const String bookingTermsBody = "Prices are inclusive of all local taxes and institutional discounts. Cancellations made up to 48 hours before the first meal date receive a full refund.";
+  static const String onSiteContact = "On-site Contact";
+  static const String confirmAndProceed = "Confirm & Proceed";
+}
+
+class ConfirmMealBookingStrings {
+  ConfirmMealBookingStrings._();
+
+  static const String title = "Confirm Your Meals";
+  static const String noPaymentNote = "This sends a booking request to the operator. No payment is required at this step.";
+  static const String confirm = "Confirm";
+}
+
+class SendingMealRequestStrings {
+  SendingMealRequestStrings._();
+
+  static const String title = "Sending Meal Request…";
+  static const String notifyingPrefix = "Notifying ";
+  static const String notifyingSuffix = " about your group meals.";
+  static const String step1 = "Verifying menu & dates";
+  static const String step2 = "Confirming group capacity…";
+  static const String step3 = "Awaiting restaurant confirmation";
+  static const String secureTransaction = "SECURE TRANSACTION";
+}
+
+class MealBookingSentStrings {
+  MealBookingSentStrings._();
+
+  static const String title = "Meal Booking Sent!";
+  static const String awaitingConfirmation = "AWAITING RESTAURANT CONFIRMATION";
+  static const String dates = "DATES";
+  static const String group = "GROUP";
+  static const String totalAmount = "TOTAL AMOUNT";
+  static const String whatsNext = "What's Next?";
+  static const String step1Title = "Operator Confirms";
+  static const String step1Body = "Operator will confirm capacity within 2 hours.";
+  static const String step2Title = "Payment Link";
+  static const String step2Body = "A payment link will be sent to your dashboard.";
+  static const String step3Title = "Advance Payment";
+  static const String step3Body = "Complete 30% advance payment to lock booking.";
+  static const String viewAllBookings = "View All Bookings";
+  static const String goToDashboard = "Go to Dashboard →";
+}
+
 class LockedItineraryStrings {
   LockedItineraryStrings._();
 

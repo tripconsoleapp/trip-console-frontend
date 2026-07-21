@@ -68,6 +68,15 @@ import '../screens/service_booking/room_type_preference_screen.dart';
 import '../screens/service_booking/hotel_search_results_screen.dart';
 import '../screens/service_booking/service_hotel_detail_screen.dart';
 import '../screens/service_booking/hotel_booking_summary_screen.dart';
+import '../screens/service_booking/book_restaurant_screen.dart';
+import '../screens/service_booking/select_meal_location_screen.dart';
+import '../screens/service_booking/select_meal_dates_screen.dart';
+import '../screens/service_booking/select_meal_types_screen.dart';
+import '../screens/service_booking/restaurant_search_results_screen.dart';
+import '../screens/service_booking/restaurant_menu_planning_screen.dart';
+import '../screens/service_booking/meal_booking_summary_screen.dart';
+import '../screens/service_booking/sending_meal_request_screen.dart';
+import '../screens/service_booking/meal_booking_sent_screen.dart';
 
 /// Central route table. New screens register a route here as they're
 /// converted from Figma, in the same order as the project's screen list.
@@ -134,6 +143,15 @@ class AppRouter {
   static const String hotelSearchResults = '/service/hotel/results';
   static const String serviceHotelDetail = '/service/hotel/detail';
   static const String hotelBookingSummary = '/service/hotel/summary';
+  static const String bookRestaurant = '/service/restaurant';
+  static const String selectMealLocation = '/service/restaurant/location';
+  static const String selectMealDates = '/service/restaurant/dates';
+  static const String selectMealTypes = '/service/restaurant/meal-types';
+  static const String restaurantSearchResults = '/service/restaurant/results';
+  static const String restaurantMenuPlanning = '/service/restaurant/menu';
+  static const String mealBookingSummary = '/service/restaurant/summary';
+  static const String sendingMealRequest = '/service/restaurant/sending';
+  static const String mealBookingSent = '/service/restaurant/sent';
 
   static GoRouter router(BuildContext context) {
     return GoRouter(
@@ -277,6 +295,18 @@ class AppRouter {
           builder: (ctx, state) => ServiceHotelDetailScreen(hotel: state.extra as HotelOption),
         ),
         GoRoute(path: hotelBookingSummary, builder: (ctx, state) => const HotelBookingSummaryScreen()),
+        GoRoute(path: bookRestaurant, builder: (ctx, state) => const BookRestaurantScreen()),
+        GoRoute(path: selectMealLocation, builder: (ctx, state) => const SelectMealLocationScreen()),
+        GoRoute(path: selectMealDates, builder: (ctx, state) => const SelectMealDatesScreen()),
+        GoRoute(path: selectMealTypes, builder: (ctx, state) => const SelectMealTypesScreen()),
+        GoRoute(path: restaurantSearchResults, builder: (ctx, state) => const RestaurantSearchResultsScreen()),
+        GoRoute(
+          path: restaurantMenuPlanning,
+          builder: (ctx, state) => RestaurantMenuPlanningScreen(restaurant: state.extra as RestaurantOption),
+        ),
+        GoRoute(path: mealBookingSummary, builder: (ctx, state) => const MealBookingSummaryScreen()),
+        GoRoute(path: sendingMealRequest, builder: (ctx, state) => const SendingMealRequestScreen()),
+        GoRoute(path: mealBookingSent, builder: (ctx, state) => const MealBookingSentScreen()),
       ],
       errorBuilder: (ctx, state) => Scaffold(
         body: Center(child: Text('Page not found: ${state.uri.path}')),

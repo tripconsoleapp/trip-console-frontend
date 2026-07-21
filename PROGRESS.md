@@ -656,3 +656,110 @@ Confirm Booking sheet (checkbox correctly gates the Confirm button) →
 confirmed → back on Home with success SnackBar. `flutter analyze` clean
 (zero errors/warnings; only pre-existing `prefer_const_constructors` info
 lints).
+
+---
+
+## 2026-07-21 — Session 8: Restaurant Only Booking flow ("Service Only")
+
+The user supplied a further 3 screenshots of a richer, standalone
+"Restaurant / Meal Booking" flow and confirmed — same pattern as the
+Hotel session — that this is the third **Service Only** path, reached
+from Home Dashboard's previously-dead "Restaurant" quick-action chip.
+Audited first: none of the 13 implied screens existed (the app's
+existing `choose_restaurant_screen.dart` / `restaurant_menu_screen.dart`
+/ `plan_quantities_screen.dart` are all trip-wizard-scoped, not
+standalone). Built the full flow reusing as much of that existing
+infrastructure as possible.
+
+| Screen | File | Step |
+|---|---|---|
+| Book Restaurant (meal requirements) | `lib/screens/service_booking/book_restaurant_screen.dart` | 1/5 |
+| Select Meal Location | `lib/screens/service_booking/select_meal_location_screen.dart` | sub-screen |
+| Select Meal Dates (multi-select calendar) | `lib/screens/service_booking/select_meal_dates_screen.dart` | sub-screen |
+| Select Meal Types (headcount editor) | `lib/screens/service_booking/select_meal_types_screen.dart` | sub-screen |
+| Restaurant Search Results (filterable) | `lib/screens/service_booking/restaurant_search_results_screen.dart` | 2/5 |
+| Restaurant Menu & Planning (stats/tabs/menu builder) | `lib/screens/service_booking/restaurant_menu_planning_screen.dart` | 3/5 |
+| Dietary Summary (bottom sheet) | `lib/widgets/dietary_summary_sheet.dart` | modal |
+| Meal Booking Summary (recap + cost breakdown) | `lib/screens/service_booking/meal_booking_summary_screen.dart` | 4/5 |
+| Confirm Your Meals (bottom sheet) | `lib/widgets/confirm_meal_booking_sheet.dart` | modal |
+| Sending Meal Request (animated checklist) | `lib/screens/service_booking/sending_meal_request_screen.dart` | 5/5 |
+| Meal Booking Sent (success) | `lib/screens/service_booking/meal_booking_sent_screen.dart` | 5/5 |
+
+New provider: `lib/providers/restaurant_booking_provider.dart` — booking
+type/location/meal dates/meal-type toggles/headcounts/diet
+preference/catering style, plus the menu selection and all cost getters
+(`subtotal`, `serviceCharge` at 5%, `grandTotal`). Registered in
+`main.dart`'s `MultiProvider`.
+
+### Decisions made without asking (flag if wrong)
+
+- **Reused `TripType`, `RestaurantOption`, `MenuItem`/`MealType`** from
+  the existing trip-wizard restaurant flow instead of new parallel
+  models — extended `RestaurantOption` additively (`verified`, `badge`,
+  `sinceYear`, `dietaryVegPercent`, `about`, all nullable) the same way
+  `HotelOption` was extended for the Hotel flow.
+- **Flattened day-by-day menu selection to one set of dishes/quantities
+  applied uniformly across every selected meal date**, rather than
+  distinct per-day menus. This mirrors the Hotel flow's "one room
+  choice, multiplied by nights" simplification, and let two Figma
+  frames ("Restaurant Menu & Planning" and "Quantity Planning") merge
+  into a single screen — each dish gets a quantity stepper directly
+  instead of a separate select-then-quantity pass. Costs and the
+  Dietary Summary's day-by-day breakdown are derived from this (same
+  totals repeated per selected date) — illustrative, not authoritative,
+  consistent with every other derived-data screen in this app.
+- **Merged the Figma "Book Restaurant" and "Meal Requirements" frames**
+  into one Step 1/5 screen — both described the same step with
+  overlapping fields (location, dates, meal types, group size, diet
+  preference); building both would have been duplicate/conflicting
+  designs. Kept "Book Restaurant" as the screen title (matches the Home
+  chip and the "Book Hotel" naming symmetry) and folded in Meal
+  Requirements' Catering Style chips.
+- **Select Meal Dates is a genuine multi-select calendar** (Set
+  <DateTime>, quick actions "Select 7 Days" / "Weekdays Only" / "Clear
+  All"), not a check-in/check-out range like Hotel's — the screenshots
+  show non-contiguous day selection (a school might only need meals on
+  specific days), so a different picker was built rather than reusing
+  the range-picker.
+- **Confirm Your Meals has no checkbox gate** (unlike Hotel's Confirm
+  Booking sheet) — the screenshot shows just a note ("no payment
+  required at this step") and a single Confirm button, so that's what
+  was built; the richer confirmation ceremony happens via the follow-up
+  Sending/Sent screens instead.
+- **"View All Bookings" and "Go to Dashboard"** both reset the provider
+  and return to Home — there's no dedicated bookings-list screen in this
+  app (Home's own copy says "Service-only bookings are independent —
+  they won't appear in your trip list"), so routing both buttons
+  elsewhere would either 404 or show a list that can never contain the
+  booking just made.
+- Wired Home Dashboard's "Restaurant" `QuickActionChip.onTap` to
+  `AppRouter.bookRestaurant` — it had no destination before this
+  session.
+
+### Explicitly deferred (not built, not silently skipped)
+
+- One screenshot frame ("Select Activity Location", a map-style picker
+  similar to Select Meal Location) did **not** belong to this Restaurant
+  flow — it appears to be the start of a fourth, separate "Activity"
+  service-only flow that the screenshot batch cut off before showing.
+  No Activity booking flow (standalone or in-trip) exists anywhere in
+  this codebase. Not built — needs its own screenshot batch before
+  scoping.
+- Vehicle's Service Only chip remains unwired (no screenshots yet for
+  that flow either).
+
+Verified live in the browser preview end-to-end: Home → Restaurant chip
+→ Book Restaurant (School, 2 Students) → Select Meal Location → Select
+Meal Dates (multi-select, 7 non-contiguous-capable days picked via
+"Select 7 Days") → Search Restaurants → Restaurant Results (3
+restaurants, correct badges/pricing) → Kandy Tamil Restaurant menu
+(quantity steppers: 2× Kerala Sadya + 2× Parotta Curry = ₹600/day,
+correct) → Dietary Summary sheet (7 days × 4 portions, correct) → Meal
+Booking Summary (Lunch ₹2520 + Dinner ₹1680 + 5% service charge ₹210 =
+₹4410 total, correct) → Confirm Your Meals sheet → Sending Meal Request
+(animated checklist) → Meal Booking Sent (correct restaurant/dates/
+total, "What's Next" steps) → Go to Dashboard → back on Home, provider
+reset. Also separately verified Select Meal Types (headcount editor,
+dynamic "Confirm Meal Types (...)" label) in a clean single-click pass.
+`flutter analyze` clean (zero errors/warnings; only pre-existing
+`prefer_const_constructors` info lints).
