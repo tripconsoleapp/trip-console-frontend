@@ -61,7 +61,7 @@ class TripServicesScreen extends StatelessWidget {
         totalSteps: 5,
         stepTitle: 'Services',
         nextLabel: ServicesStrings.nextReview,
-        onNext: () => context.push(AppRouter.tripReview),
+        onNext: () => context.push(AppRouter.itineraryGenerating),
         onBack: () => context.pop(),
       ),
       body: SingleChildScrollView(
@@ -158,7 +158,7 @@ class TripServicesScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: () => context.push(AppRouter.tripReview),
+                  onPressed: () => context.push(AppRouter.itineraryGenerating),
                   child: Text('${ServicesStrings.generateItinerary} →', style: AppTextStyles.button()),
                 ),
               ),

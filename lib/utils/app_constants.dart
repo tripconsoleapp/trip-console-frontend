@@ -532,14 +532,116 @@ class PickOnMapStrings {
 class ReviewStrings {
   ReviewStrings._();
 
-  static const String title = "Review & Confirm";
-  static const String pendingNotice = "This step is still being finalized in the design — a full review summary will land here soon.";
+  static const String title = "Review Trip";
+  static const String finalReviewBanner = "Final Review: All components validated. Proceed to final confirmation.";
   static const String tripSummary = "Trip Summary";
   static const String destinations = "Destinations";
   static const String participants = "Participants";
   static const String services = "Services";
   static const String estimatedCost = "Estimated Cost";
   static const String submitForVerification = "Submit for Verification";
+  static const String routeDetails = "Route Details";
+  static const String departure = "DEPARTURE";
+  static const String arrival = "ARRIVAL";
+  static const String travelersTotal = "Travelers Total";
+  static const String servicesAndLogistics = "Services & Logistics";
+  static const String costSnapshot = "Cost Snapshot";
+  static const String baseExpeditionCost = "Base Expedition Cost";
+  static const String premiumAddOns = "Premium Add-ons";
+  static const String totalEstimate = "Total Estimate";
+  static const String itineraryPreview = "Itinerary Preview";
+  static const String continueToDeclarations = "Continue to Declarations";
+}
+
+class DeclarationsStrings {
+  DeclarationsStrings._();
+
+  static const String title = "Declarations";
+  static const String beforeYouSubmit = "Before you submit";
+  static const String subtitle = "Please review and confirm the following declarations to finalize your itinerary.";
+  static const String infoAccuracyTitle = "Information Accuracy";
+  static const String infoAccuracyBody = "I hereby declare that all information provided regarding trip dates, passengers, and destinations is accurate to the best of my knowledge.";
+  static const String institutionalApprovalTitle = "Institutional Approval";
+  static const String institutionalApprovalBody = "I confirm that I have the necessary authority to submit this itinerary for official processing and that it aligns with organizational travel policies.";
+  static const String costReviewTitle = "Cost Review & Acceptance";
+  static const String costReviewBodyPrefix = "I acknowledge the estimated total cost of ";
+  static const String costReviewBodySuffix = " and the non-refundable processing fee.";
+  static const String confirmAllPrompt = "Confirm all 3 declarations to submit";
+  static const String submitTrip = "Submit Trip";
+  static const String backToEdit = "Back to Edit";
+}
+
+class SubmitConfirmationStrings {
+  SubmitConfirmationStrings._();
+
+  static const String title = "Submit this trip?";
+  static const String body = "Please review your expedition details before finalizing your submission.";
+  static const String totalCost = "TOTAL COST";
+  static const String budgetAuthenticated = "Budget Authenticated";
+  static const String timelineConfirmed = "Timeline Confirmed";
+  static const String permitsVerified = "Permits & Risks Verified";
+  static const String yesSubmit = "Yes, Submit Trip";
+  static const String goBack = "Go Back — Review Again";
+}
+
+class ItineraryGeneratingStrings {
+  ItineraryGeneratingStrings._();
+
+  static const String title = "Building your itinerary…";
+  static const String step1 = "Validating destinations";
+  static const String step2 = "Syncing travel preferences";
+  static const String step3 = "Generating day timeline";
+  static const String step4 = "Finalizing itinerary";
+}
+
+class ItineraryDayStrings {
+  ItineraryDayStrings._();
+
+  static const String title = "Trip Itinerary";
+  static const String addBlock = "Add block";
+  static const String totalDailyExpense = "TOTAL DAILY EXPENSE";
+  static const String nextDayPrefix = "Next: Day ";
+  static const String reviewTrip = "Review Trip";
+}
+
+class EditBlockStrings {
+  EditBlockStrings._();
+
+  static const String title = "Edit Block";
+  static const String addTitle = "Add Block";
+  static const String blockType = "BLOCK TYPE";
+  static const String activityName = "ACTIVITY NAME";
+  static const String location = "LOCATION";
+  static const String startTime = "START TIME";
+  static const String duration = "DURATION";
+  static const String costPerStudent = "COST PER STUDENT";
+  static const String staffFree = "Staff Free";
+  static const String organizerNotes = "ORGANIZER NOTES";
+  static const String organizerNotesHint = "Wear comfortable shoes, carry water bottles...";
+  static const String saveBlock = "Save Block";
+  static const String deleteBlock = "Delete block";
+  static const String cancel = "Cancel";
+}
+
+class PlanQuantitiesStrings {
+  PlanQuantitiesStrings._();
+
+  static const String title = "Plan Quantities";
+  static const String stepPrefix = "STEP ";
+  static const String settingQuantitiesFor = "Setting quantities for Day ";
+  static const String totalAttendees = "TOTAL ATTENDEES";
+  static const String vegMeals = "Veg meals";
+  static const String nonVegMeals = "Non-veg meals";
+  static const String scopeNote = "These totals apply across all days — only dish choices differ per day.";
+  static const String unassignedPrefix = "portions unassigned for Day ";
+  static const String unassignedSuffix = " — adjust quantities below.";
+  static const String pricingSummary = "PRICING SUMMARY";
+  static const String subtotal = "Subtotal";
+  static const String serviceTax = "Service Tax (5%)";
+  static const String dayTotal = "Total";
+  static const String continueToDay = "Continue to Day ";
+  static const String continueToReview = "Continue to Review";
+  static const String portionsPlannedSuffix = "portions planned";
 }
 
 class StartingLocationStrings {

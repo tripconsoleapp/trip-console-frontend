@@ -356,3 +356,120 @@ services cost-breakdown getter chain (`servicesSubtotal` → `managementBuffer`
   from earlier manual testing for stale served code — check whether the
   values match what you set yourself earlier in the session before
   concluding the build didn't pick up a change.
+
+---
+
+## 2026-07-21 — Session 5: Completing the wizard's actual Step 5 + Itinerary system
+
+User supplied 5 more screenshots revealing that Step 5 ("Review") is not
+one screen but a whole sub-flow, and that "Generate Itinerary" (a button
+already sitting on Services) had nowhere real to go. Built both, plus the
+Plan Quantities step for Restaurant that Session 4 explicitly flagged as
+skipped (no screenshot existed then; one does now). `flutter analyze`
+clean throughout; the entire chain — Services → Generate Itinerary →
+day-by-day itinerary → Review Trip → Declarations → Submit confirmation →
+My Trips — was click-tested live in the browser end to end, including the
+block editor and the Plan Quantities math.
+
+### What replaced the Step 5 placeholder
+
+`trip_review_screen.dart` was a Session 4 placeholder (explicitly labeled
+"no Figma source yet"). It's now the real **Review Trip — Master Overview**:
+Route Details, Participants, Services & Logistics, Cost Snapshot, and an
+Itinerary Preview built from whatever `NewTripProvider.dailyItinerary`
+contains (auto-generating it via a post-frame callback if the organizer
+skipped straight here without visiting the itinerary screens). "Continue to
+Declarations" leads to a new **Declarations** screen (3 checkboxes gating
+Submit) → a **Submit confirmation** dialog (`showDialog`, not a route) →
+`My Trips` on confirm.
+
+### New itinerary system
+
+`Generate Itinerary` (and Services' "Next: Review" in the `WizardBottomBar`,
+now consistent) both route through:
+
+| Screen | File |
+|---|---|
+| Itinerary Generating (loading) | `itinerary_generating_screen.dart` |
+| Itinerary Day (timeline, day tabs) | `itinerary_day_screen.dart` |
+| Edit Itinerary Block (sheet) | `edit_itinerary_block_sheet.dart` |
+
+`NewTripProvider.generateItinerary()` synthesizes `dailyItinerary` (one
+`List<ItineraryBlock>` per day) from whatever's already chosen on
+Destinations/Services — a travel leg every day, one activity per day
+(round-robin through `activities` if any are selected), a meal block
+(hotel/restaurant costs split evenly across days as an *illustrative* daily
+figure — the authoritative total is still `servicesGrandTotal`, this is
+just a breakdown view). Idempotent, so re-entering the screen after manual
+edits doesn't wipe them. New model: `itinerary_block.dart` (`BlockType`
+enum: travel/activity/meal/rest).
+
+### Plan Quantities (closes a Session-4-flagged gap)
+
+`restaurant_menu_screen.dart`'s final-day button now routes to
+`plan_quantities_screen.dart` instead of straight to Review. It splits
+`totalParticipants` into veg/non-veg headcounts (defaulted 76/24, editable,
+with an "N portions unassigned" warning if they don't sum correctly),
+distributes portions evenly across that day's selected dishes per
+veg/non-veg group, and computes subtotal + 5% service tax per day. The
+final day pushes an extended `RestaurantReviewArgs` (now carrying
+`quantitiesByDay`) to `restaurant_review_screen.dart`, whose totals were
+reworked to multiply `quantity × price` per dish instead of the old
+`(sum of dish prices) × totalParticipants` — quantities now directly *are*
+the portion allocation, not a flat per-head multiplier.
+
+### Decisions made without asking (flag if wrong)
+
+- **Submit confirmation is a dialog (`showDialog`), not a route.** The
+  screenshot shows it as a centered modal card over a dimmed background,
+  which is dialog semantics, not a full-screen push — kept it that way
+  rather than forcing it into the route-per-screen pattern used everywhere
+  else in the wizard.
+- **The "Budget Authenticated / Timeline Confirmed / Permits & Risks
+  Verified" checklist in the submit dialog uses amber info icons, not green
+  checkmarks** — read the screenshot as a final-review checklist to glance
+  over, not items already programmatically verified (nothing in this app
+  actually checks budget/permits), so styling them as passed checks would
+  overclaim.
+- **Itinerary block costs are illustrative, not authoritative** — hotel and
+  restaurant totals are already locked in on Services
+  (`NewTripProvider.servicesGrandTotal`); the day-by-day view just splits
+  those same totals evenly across days for a readable breakdown. Don't
+  sum itinerary block costs expecting them to reconcile to a different,
+  more-precise number — they're deliberately a rough per-day slice of the
+  same total.
+- **No real dates anywhere in the itinerary** — Basics never collects a
+  trip start date, so Day screens say "Day 1 of 3" rather than fabricating
+  calendar dates like the screenshots show ("March 15, Saturday"). Inventing
+  a plausible-looking date felt worse than omitting it.
+
+### Explicitly deferred (not built, not silently skipped)
+
+Two features were visible across the screenshots but not built this
+session — flagging rather than fabricating or quietly dropping them:
+
+- **Cost Console** — a whole separate post-submission dashboard (buffer
+  explainer popover, version history panel, locked cost snapshot with a
+  payment plan, PDF export/"Request Change"). This reads as a distinct
+  nav-level feature for managing an *already-submitted* trip, not part of
+  the linear creation wizard. Out of scope for "finish the wizard."
+- **Rich Select Activities flow** — destination/category-filtered activity
+  browsing, a detailed Activity Detail screen (reviews, cost breakdown,
+  inclusions checklist), and a "Selected Activities" review step. Currently
+  Activities still uses the generic `VendorListingScreen` shared with
+  single-select vehicles. Functional, just not as deep as the screenshots
+  show.
+- Also not built (layer-names-only in the Figma panel, never seen as a
+  rendered frame, same standard as Session 4's deferrals): KSRTC
+  Interstate/District-specific bus listings, and any distinct "Review &
+  Submit — Confirmation Sheet" beyond the dialog already built.
+
+### Environment note (reconfirmed)
+
+Hit the same-tab SPA state-carryover issue again mid-session (clicked
+"Generate Itinerary" and landed on the *old* placeholder Review screen
+despite a `preview_stop`/`preview_start` cycle) — turned out the existing
+tab was still running the previously-loaded JS bundle. A **brand new tab**
+(`tabs_create` + `navigate`) resolved it immediately. When a restart
+doesn't seem to have taken effect, open a fresh tab before concluding
+there's a build problem.

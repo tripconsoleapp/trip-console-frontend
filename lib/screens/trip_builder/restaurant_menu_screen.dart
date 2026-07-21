@@ -94,7 +94,7 @@ class _RestaurantMenuScreenState extends State<RestaurantMenuScreen> {
                     onPressed: () {
                       if (isLastDay) {
                         context.push(
-                          AppRouter.restaurantReview,
+                          AppRouter.planQuantities,
                           extra: RestaurantReviewArgs(restaurant: widget.restaurant, selectionsByDay: _selections, totalDays: totalDays),
                         );
                       } else {

@@ -41,9 +41,13 @@ import '../screens/trip_builder/hotel_detail_screen.dart';
 import '../screens/trip_builder/choose_restaurant_screen.dart';
 import '../screens/trip_builder/restaurant_menu_screen.dart';
 import '../screens/trip_builder/restaurant_review_screen.dart';
+import '../screens/trip_builder/plan_quantities_screen.dart';
 import '../screens/trip_builder/vehicle_detail_screen.dart';
 import '../screens/trip_builder/vehicle_capacity_mismatch_screen.dart';
 import '../screens/trip_builder/multi_vehicle_listing_screen.dart';
+import '../screens/trip_builder/itinerary_generating_screen.dart';
+import '../screens/trip_builder/itinerary_day_screen.dart';
+import '../screens/trip_builder/declarations_screen.dart';
 
 /// Central route table. New screens register a route here as they're
 /// converted from Figma, in the same order as the project's screen list.
@@ -85,9 +89,13 @@ class AppRouter {
   static const String chooseRestaurant = '/trip/services/restaurant';
   static const String restaurantMenu = '/trip/services/restaurant/menu';
   static const String restaurantReview = '/trip/services/restaurant/review';
+  static const String planQuantities = '/trip/services/restaurant/quantities';
   static const String vehicleDetail = '/trip/services/vehicle/detail';
   static const String vehicleCapacityMismatch = '/trip/services/vehicle/capacity-mismatch';
   static const String multiVehicleListing = '/trip/services/vehicle/multi-listing';
+  static const String itineraryGenerating = '/trip/itinerary/generating';
+  static const String itineraryDay = '/trip/itinerary/day';
+  static const String declarations = '/trip/review/declarations';
 
   static GoRouter router(BuildContext context) {
     return GoRouter(
@@ -156,6 +164,10 @@ class AppRouter {
           builder: (ctx, state) => RestaurantReviewScreen(args: state.extra as RestaurantReviewArgs),
         ),
         GoRoute(
+          path: planQuantities,
+          builder: (ctx, state) => PlanQuantitiesScreen(args: state.extra as RestaurantReviewArgs),
+        ),
+        GoRoute(
           path: vehicleDetail,
           builder: (ctx, state) => VehicleDetailScreen(option: state.extra as VendorOption),
         ),
@@ -170,6 +182,12 @@ class AppRouter {
             return MultiVehicleListingScreen(title: extra.title, options: extra.options);
           },
         ),
+        GoRoute(path: itineraryGenerating, builder: (ctx, state) => const ItineraryGeneratingScreen()),
+        GoRoute(
+          path: itineraryDay,
+          builder: (ctx, state) => ItineraryDayScreen(day: state.extra as int? ?? 0),
+        ),
+        GoRoute(path: declarations, builder: (ctx, state) => const DeclarationsScreen()),
       ],
       errorBuilder: (ctx, state) => Scaffold(
         body: Center(child: Text('Page not found: ${state.uri.path}')),

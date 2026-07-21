@@ -14,11 +14,23 @@ import '../../utils/app_router.dart';
 /// Bundles what [RestaurantMenuScreen] built up so [RestaurantReviewScreen]
 /// doesn't need its own copy of the day-by-day selection state.
 class RestaurantReviewArgs {
-  const RestaurantReviewArgs({required this.restaurant, required this.selectionsByDay, required this.totalDays});
+  const RestaurantReviewArgs({
+    required this.restaurant,
+    required this.selectionsByDay,
+    required this.totalDays,
+    this.quantitiesByDay = const {},
+  });
 
   final RestaurantOption restaurant;
   final Map<int, Set<MenuItem>> selectionsByDay;
   final int totalDays;
+
+  /// Portion counts set on Plan Quantities — falls back to 1 portion per
+  /// selected dish if a day/dish isn't present (e.g. reached without going
+  /// through quantity planning).
+  final Map<int, Map<MenuItem, int>> quantitiesByDay;
+
+  int quantityFor(int day, MenuItem item) => quantitiesByDay[day]?[item] ?? 1;
 }
 
 /// Final summary across every day's menu selections — confirming here
@@ -30,15 +42,20 @@ class RestaurantReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final draft = context.watch<NewTripProvider>();
     int totalItems = 0;
-    int totalCostPerHead = 0;
+    int totalPortions = 0;
+    int subtotal = 0;
     for (var day = 1; day <= args.totalDays; day++) {
       final items = args.selectionsByDay[day] ?? {};
       totalItems += items.length;
-      totalCostPerHead += items.fold(0, (sum, item) => sum + item.price);
+      for (final item in items) {
+        final qty = args.quantityFor(day, item);
+        totalPortions += qty;
+        subtotal += qty * item.price;
+      }
     }
-    final grandTotal = totalCostPerHead * draft.totalParticipants;
+    final serviceTax = (subtotal * 0.05).round();
+    final grandTotal = subtotal + serviceTax;
 
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
@@ -60,7 +77,7 @@ class RestaurantReviewScreen extends StatelessWidget {
                   context.read<NewTripProvider>().setRestaurant(
                         VendorOption(
                           name: args.restaurant.name,
-                          subtitle: '${args.totalDays} days · $totalItems dishes · ${draft.totalParticipants} heads',
+                          subtitle: '${args.totalDays} days · $totalItems dishes · $totalPortions portions',
                           price: grandTotal,
                         ),
                       );
@@ -80,7 +97,8 @@ class RestaurantReviewScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(RestaurantReviewStrings.subtitle, style: AppTextStyles.bodySm()),
             const SizedBox(height: 20),
-            for (var day = 1; day <= args.totalDays; day++) _DaySummaryCard(day: day, items: (args.selectionsByDay[day] ?? {}).toList()),
+            for (var day = 1; day <= args.totalDays; day++)
+              _DaySummaryCard(day: day, items: (args.selectionsByDay[day] ?? {}).toList(), args: args),
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(16),
@@ -90,15 +108,16 @@ class RestaurantReviewScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Cost per head', style: AppTextStyles.bodySm(color: AppColors.textDark)),
-                      Text('₹$totalCostPerHead', style: AppTextStyles.bodySm(color: AppColors.textDark).copyWith(fontWeight: FontWeight.w600)),
+                      Text(PlanQuantitiesStrings.subtotal, style: AppTextStyles.bodySm(color: AppColors.textDark)),
+                      Text('₹$subtotal', style: AppTextStyles.bodySm(color: AppColors.textDark).copyWith(fontWeight: FontWeight.w600)),
                     ],
                   ),
                   const SizedBox(height: 6),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('× ${draft.totalParticipants} participants', style: AppTextStyles.bodySm()),
+                      Text(PlanQuantitiesStrings.serviceTax, style: AppTextStyles.bodySm(color: AppColors.textDark)),
+                      Text('₹$serviceTax', style: AppTextStyles.bodySm(color: AppColors.textDark).copyWith(fontWeight: FontWeight.w600)),
                     ],
                   ),
                   const Divider(color: Color(0xFFE2E2E2)),
@@ -120,10 +139,11 @@ class RestaurantReviewScreen extends StatelessWidget {
 }
 
 class _DaySummaryCard extends StatelessWidget {
-  const _DaySummaryCard({required this.day, required this.items});
+  const _DaySummaryCard({required this.day, required this.items, required this.args});
 
   final int day;
   final List<MenuItem> items;
+  final RestaurantReviewArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +169,8 @@ class _DaySummaryCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(item.name, style: AppTextStyles.bodySm(color: AppColors.textDark)),
-                    Text('₹${item.price}', style: AppTextStyles.bodySm()),
+                    Expanded(child: Text('${item.name} × ${args.quantityFor(day, item)}', style: AppTextStyles.bodySm(color: AppColors.textDark))),
+                    Text('₹${item.price * args.quantityFor(day, item)}', style: AppTextStyles.bodySm()),
                   ],
                 ),
               ),

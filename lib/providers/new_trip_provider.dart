@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/trip_type.dart';
 import '../models/itinerary_stop.dart';
+import '../models/itinerary_block.dart';
 import '../models/vendor_option.dart';
 
 /// Holds the in-progress draft of a trip as the organizer moves through the
@@ -46,6 +47,9 @@ class NewTripProvider extends ChangeNotifier {
   VendorOption? restaurant;
   bool activitiesEnabled = false;
   final List<VendorOption> activities = [];
+
+  // Itinerary (generated after Services, one block list per day)
+  List<List<ItineraryBlock>> dailyItinerary = [];
 
   void setTripName(String value) {
     tripName = value;
@@ -187,6 +191,76 @@ class NewTripProvider extends ChangeNotifier {
         TripType.group => membersCount,
         TripType.college || TripType.school => studentsCount,
       };
+
+  /// Synthesizes a day-by-day timeline from whatever's already been chosen
+  /// on Destinations/Services — a travel leg, one rotating activity, a meal
+  /// block, and a rest/check-in block per day. Idempotent so re-entering
+  /// the Itinerary screen doesn't wipe manual edits.
+  void generateItinerary() {
+    if (dailyItinerary.isNotEmpty) return;
+    final dayCount = stops.isEmpty ? 1 : stops.length;
+    final result = <List<ItineraryBlock>>[];
+    for (var i = 0; i < dayCount; i++) {
+      final stop = stops.isEmpty ? null : stops[i];
+      final fromName = i == 0 ? startingLocationName : stops[i - 1].name;
+      final blocks = <ItineraryBlock>[];
+      blocks.add(ItineraryBlock(
+        type: BlockType.travel,
+        time: '06:00 AM',
+        title: stop == null ? 'Depart from $fromName' : '$fromName → ${stop.name}',
+        subtitle: stop?.etaFromPrevious ?? 'Local travel',
+      ));
+      if (activitiesEnabled && activities.isNotEmpty) {
+        final activity = activities[i % activities.length];
+        blocks.add(ItineraryBlock(
+          type: BlockType.activity,
+          time: '10:30 AM',
+          title: activity.name,
+          subtitle: activity.subtitle,
+          cost: activity.price,
+        ));
+      }
+      if (restaurantEnabled && restaurant != null) {
+        blocks.add(ItineraryBlock(
+          type: BlockType.meal,
+          time: '01:00 PM',
+          title: 'Meals — ${restaurant!.name}',
+          subtitle: 'Included in dining plan',
+          cost: (restaurant!.price / dayCount).round(),
+        ));
+      }
+      if (hotelEnabled && hotel != null) {
+        final isLastDay = i == dayCount - 1;
+        blocks.add(ItineraryBlock(
+          type: BlockType.rest,
+          time: '07:00 PM',
+          title: isLastDay ? 'Checkout — ${hotel!.name}' : 'Overnight — ${hotel!.name}',
+          subtitle: hotel!.subtitle,
+          cost: isLastDay ? null : (hotel!.price / dayCount).round(),
+        ));
+      }
+      result.add(blocks);
+    }
+    dailyItinerary = result;
+    notifyListeners();
+  }
+
+  void updateBlock(int day, int index, ItineraryBlock block) {
+    dailyItinerary[day][index] = block;
+    notifyListeners();
+  }
+
+  void addBlock(int day, ItineraryBlock block) {
+    dailyItinerary[day].add(block);
+    notifyListeners();
+  }
+
+  void removeBlock(int day, int index) {
+    dailyItinerary[day].removeAt(index);
+    notifyListeners();
+  }
+
+  int dailyExpense(int day) => dailyItinerary[day].fold(0, (sum, b) => sum + (b.cost ?? 0));
 
   int get vehicleTotal => vehicleEnabled ? (vehicle?.price ?? 0) : 0;
   int get hotelTotal => hotelEnabled ? (hotel?.price ?? 0) : 0;
