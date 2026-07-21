@@ -159,3 +159,200 @@ school). No rendering errors in a clean run.
 - `.claude/launch.json` added (`tripconsole-web`, `flutter run -d web-server`)
   for future preview-pane use, though it went unused this session due to the
   port conflict above.
+
+---
+
+## 2026-07-21 — Session 3: My Trips, Profile, Templates, and Destinations gap-fill
+
+User supplied 4 more screenshots covering screens not yet scoped. Built all
+13: My Trips (list + empty state), Profile, Choose Starting Location, Add
+Destination Modal, Setting Up Your Trip loader, Add New Listing chooser,
+Templates browse + Filter modal + shared Package/Template Detail screen, and
+a Recent Activity feed added to Home Dashboard. `flutter analyze` clean
+(info-level lints only) after every batch; each screen visually verified via
+the preview pane.
+
+### New screens/widgets
+
+| Screen | File |
+|---|---|
+| My Trips (list + empty state, one screen) | `lib/screens/my_trips/my_trips_screen.dart` |
+| Profile | `lib/screens/profile/profile_screen.dart` |
+| Choose Starting Location | `lib/screens/trip_builder/choose_starting_location_screen.dart` |
+| Add Destination (bottom sheet) | `lib/widgets/add_destination_sheet.dart` |
+| Setting Up Your Trip (loader) | `lib/screens/trip_builder/trip_setup_loading_screen.dart` |
+| Add New Listing (entry chooser) | `lib/screens/home/add_new_listing_screen.dart` |
+| Templates (browse grid) | `lib/screens/templates/templates_screen.dart` |
+| Filter Templates (bottom sheet) | `lib/widgets/filter_templates_sheet.dart` |
+| Package/Template Detail (shared, `isTemplate` flag swaps CTA) | `lib/screens/templates/package_detail_screen.dart` |
+
+New models: `trip_status.dart`, `trip_summary.dart`, `trip_package.dart`,
+`itinerary_day.dart`, `pricing_line.dart`, `activity_item.dart`. New reusable
+widgets: `trip_status_badge.dart`, `trip_summary_card.dart`,
+`template_card.dart`, `activity_item_tile.dart`.
+
+### Decisions made without asking (flag if wrong)
+
+- **My Trips is one screen, not two** — Figma showed separate "List" and
+  "Empty State" frames, but they're really the same screen branching on
+  `trips.isEmpty`. Built that way so the empty state isn't a dead code path.
+- **Package Detail and Template Detail are one screen** — same layout
+  (photo, route, itinerary, pricing), only the bottom CTA differs ("Add to
+  Trip" vs. "Use This Template"). Passed via `state.extra` as a Dart record
+  `({TripPackage package, bool isTemplate})`. Both routes lead to the same
+  Setting-Up-Your-Trip loader, which always lands on Trip Basics.
+- **My Trips' FAB and "Create Your First Trip" now open Add New Listing**
+  (the chooser) instead of jumping straight to Trip Basics, since Add New
+  Listing didn't exist yet in Session 2. Home's own "Plan a Full Trip" card
+  still goes straight to Trip Basics — left as-is since that's a distinct,
+  already-verified entry point.
+- **Templates catalog is a hardcoded mock list of 6** (`TemplatesScreen.mockTemplates`)
+  reused by Home's "Recommended for You" cards (via a new `templateId` field
+  on `TripRecommendation`) and the Templates grid, so the two don't drift.
+  The "24 templates found" text from Figma was not treated as a real count —
+  used the actual mock list length instead.
+- **Choose Starting Location** writes into a new `NewTripProvider.startingLocationName`
+  (default `'Kochi'`), and the Destinations screen's map card is now tappable
+  to open it — previously hardcoded to the literal string `'KOCHI'`.
+- **"Add Another Destination"** now opens `AddDestinationSheet`, which calls
+  a new `NewTripProvider.addStop()` — previously a dead `onTap: () {}`.
+- Only 2 image assets exist (`onboarding_mountain.png`, `onboarding_adventure.png`)
+  so all 6 mock templates cycle between them — expect visual repetition in
+  the Templates grid until real package photography is supplied.
+
+### Environment notes (reconfirmed from Session 2)
+
+- **First tab opened by `preview_start` reliably renders solid black** even
+  after the JS bundle finishes loading (`document.body.innerHTML` stays on
+  the bootstrap-comment stub indefinitely). Workaround: open a **second**
+  browser tab (`tabs_create` + `navigate`) — that one renders correctly every
+  time. Always do this before concluding a screen is broken.
+- **Dev server does not recompile on file save** — `flutter run -d web-server`
+  needs a `preview_stop` + `preview_start` cycle (full process restart) to
+  pick up source edits; hot reload was not observed to trigger automatically
+  in this harness. Budget ~20-30s after restart for the DDC bundle to
+  rebuild and serve.
+- **Canvas click automation is inconsistent, not uniformly broken** —
+  contrary to Session 2's note that it "did not reliably reach" the canvas:
+  this session, most clicks on a freshly-loaded second tab landed correctly
+  (opened Package Detail, tapped "Use This Template", opened the Filter
+  sheet). Clicks on a tab that had already been navigated via URL a few
+  times became unreliable. When a click doesn't visibly register, prefer
+  navigating directly to the target route/URL over retrying the click.
+
+---
+
+## 2026-07-21 — Session 4: Wizard completion (Participants, Services, full vendor flows)
+
+User supplied 9 more Figma screenshots revealing the trip-creation wizard's
+real depth: a **Participants** step that didn't exist in the code at all,
+a fully-realized **Services** step (the screen explicitly flagged blocked
+since Session 1), and rich vendor sub-flows for Vehicle/Hotel/Restaurant
+that go far beyond a single listing screen. Built all of it. `flutter
+analyze` clean (info-level lints only) throughout; every major flow
+click-tested live in the browser, including full round-trips back into
+`NewTripProvider`.
+
+### Critical fix: wizard step order was wrong
+
+`WizardStrings.stepLabels` was `['Basics', 'Destinations', 'Services',
+'Itinerary', 'Review']` — a Session 1 guess. The screenshots show the real
+order is **Basics → Destinations → Participants → Services → Review**
+("Itinerary" doesn't exist as a separate step). Fixed the label list and
+every screen's `stepNumber`/`nextLabel`/route target to match. If a future
+screenshot contradicts this again, trust the screenshot over this doc.
+
+### New wizard screens
+
+| Screen | File | Notes |
+|---|---|---|
+| Participants (step 3) | `trip_participants_screen.dart` | Reuses Basics' existing headcount fields (students/staff, members/companions) rather than re-collecting them — see decision below |
+| Services (step 4) | `trip_services_screen.dart` | The screen blocked since Session 1. Toggle cards + live cost breakdown |
+| Transport Selection | `transport_selection_screen.dart` | Private Operators vs. KSRTC |
+| Select Vehicle Type | `select_vehicle_type_screen.dart` | 5 classes; realistic seat capacities per operator |
+| Vendor Listing (generic) | `vendor_listing_screen.dart` | Used for single-select vehicle classes + Activities |
+| Multi-Vehicle Listing | `multi_vehicle_listing_screen.dart` | Tempo Traveller / Mini Bus — "+Add" combine-multiple-vehicles mode with running seats-covered counter |
+| Vehicle Detail & Confirmation | `vehicle_detail_screen.dart` | Operator info, trip summary, reviews, "View Pricing Details" bottom sheet |
+| Vehicle Capacity Mismatch | `vehicle_capacity_mismatch_screen.dart` | 3 resolutions: bigger vehicle / add a second / reduce participants |
+| Select Hotel | `select_hotel_screen.dart` | Destination + star-rating filters, insufficient-capacity state |
+| Hotel Detail | `hotel_detail_screen.dart` | Amenities, room-type picker (live rooms-needed calc), meal-plan checkboxes |
+| Choose a Restaurant | `choose_restaurant_screen.dart` | Veg/Non-Veg/budget filter chips |
+| Restaurant Menu (day-by-day) | `restaurant_menu_screen.dart` | Day tabs, Veg/Non-Veg toggle, Breakfast/Lunch/Dinner/Packed sections, "ADDED TO DAY N" cross-day flag |
+| Restaurant Review & Confirm | `restaurant_review_screen.dart` | Aggregates every day's picks into one total |
+| Route Preview | `route_preview_screen.dart` | Leg-by-leg breakdown, reached from Destinations' "Map Preview" link |
+| Pick on Map | `pick_on_map_screen.dart` | Reached from Add Destination sheet's "Pick on map" link |
+| Trip Review (step 5) | `trip_review_screen.dart` | **Honest placeholder** — no Figma source exists yet for this step; built a real summary from live draft data instead of fabricating a design. Swap out once a screenshot arrives |
+
+New models: `vendor_option.dart` (now with `seatCapacity`), `hotel_option.dart`,
+`room_type.dart`, `restaurant_option.dart`, `menu_item.dart`. New provider
+state on `NewTripProvider`: `vehicleEnabled/vehicle`, `hotelEnabled/hotel`,
+`restaurantEnabled/restaurant`, `activitiesEnabled/activities`,
+`sourceTemplateName`, plus `totalParticipants`/`costBearingCount` and a full
+services cost-breakdown getter chain (`servicesSubtotal` → `managementBuffer`
+→ `servicesGrandTotal` → `perParticipantCost`).
+
+### Decisions made without asking (flag if wrong)
+
+- **Participants step reuses Basics' headcount fields** (`studentsCount`/
+  `staffCount` for College/School, `membersCount`/`companionsCount` for
+  Group) rather than introducing a second, divergent set of counters. The
+  screenshot shows editable counters on both screens; treating Participants
+  as a *confirmation* of the same shared state (not a duplicate entry point)
+  avoids two numbers drifting out of sync. Individual trips get a read-only
+  "Just you" / "You + 1 companion" summary since there's nothing to count.
+- **Participants' cost preview and vehicle-capacity check are independent
+  estimates**, not read from Services (which hasn't happened yet at that
+  point in the wizard). Uses a local mock rate (`₹742.75/night/head`) —
+  chosen because it reproduces the screenshot's exact numbers (42 students
+  × 4 nights → ₹2,971/student → ₹1,24,782 total) when plugged into the
+  default draft data. The *real* total is computed later on Services from
+  actual vendor prices and can differ.
+- **Vehicle/Template/Package Detail screens are shared, single
+  implementations** parameterized by data, not one-off screens per vendor —
+  `VendorListingScreen` and `VehicleDetailScreen` are reused across AC
+  Sleeper Bus / Non-AC Sleeper Bus / Car / KSRTC.
+- **Multi-vehicle combination only triggers for Tempo Traveller and Mini
+  Bus** — their largest single unit (~17–33 seats) is smaller than a
+  typical group. Car stays single-select (small personal-vehicle UX, no
+  screenshot ever showed it needing combination logic).
+- **Hotel/Restaurant/Activities mock catalogs are original data**, not
+  transcribed from the screenshots (small/blurry text in several frames
+  made exact names/prices unreadable) — built plausible, internally
+  consistent catalogs matching the visible structure instead of guessing at
+  illegible numbers.
+- **Skipped, not fabricated**: a separate "Plan Quantities" step and
+  "Review & Confirm - Final Restaurant..." screen were visible only as
+  layer names in the Figma panel, never as rendered frames — no visual
+  spec exists to build from. Restaurant's day-builder flow already ends in
+  a review/confirm step (`restaurant_review_screen.dart`) that covers the
+  same functional need. Also skipped: KSRTC-specific "Interstate"/"District"
+  bus listings (layer names only, not rendered) — KSRTC currently resolves
+  directly to one representative bus via `TransportSelectionScreen`.
+
+### Environment notes (new this session)
+
+- **Multiple concurrent `flutter run` / `flutter analyze` processes were
+  found running against this repo** (4 different `flutter run -d
+  web-server` instances on different ports, 2 stuck `analyze` invocations
+  eating 100%+ CPU each) — almost certainly leftover from other Claude Code
+  sessions or previous runs in this same environment. This caused `flutter
+  analyze` to hang for 2+ minutes instead of its normal ~1.5s. Killed the
+  stuck `analyze` processes (safe — they're one-shot, not long-running
+  servers) but left the other sessions' `flutter run` processes alone per
+  the standing rule against touching other sessions' dev servers. If
+  `analyze` or the preview inexplicably hangs/times out, check `ps aux |
+  grep dart` before assuming a code problem.
+- **`Bash` tool's working directory can silently reset** — a `flutter
+  analyze` run without an explicit `cd` printed "Analyzing muhammedhafis..."
+  (the home dir) instead of "Analyzing Tripconsole...", meaning it silently
+  analyzed the wrong (empty) directory and reported false-positive
+  cleanliness. Always confirm the "Analyzing X..." header names the actual
+  project, or prefix commands with `cd /Users/muhammedhafis/Tripconsole &&`.
+- **Navigating to a new `#/hash` route in the *same* browser tab does not
+  reset app/provider state** — go_router's hash routing is client-side SPA
+  navigation, so `NewTripProvider` (and any other in-memory state) persists
+  across `navigate` calls to the same origin. Only a **new tab** (or a hard
+  reload) gives a truly fresh app instance. Don't mistake carried-over state
+  from earlier manual testing for stale served code — check whether the
+  values match what you set yourself earlier in the session before
+  concluding the build didn't pick up a change.

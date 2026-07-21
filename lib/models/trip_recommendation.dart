@@ -7,6 +7,7 @@ class TripRecommendation {
     required this.title,
     required this.priceRange,
     required this.priceUnit,
+    required this.templateId,
   });
 
   final String imageAsset;
@@ -14,4 +15,8 @@ class TripRecommendation {
   final String title;
   final String priceRange;
   final String priceUnit;
+
+  /// Matches a [TripPackage.id] in [TemplatesScreen.mockTemplates] so this
+  /// card can open the full Package Detail screen.
+  final String templateId;
 }

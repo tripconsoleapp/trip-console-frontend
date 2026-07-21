@@ -221,12 +221,13 @@ class HomeDashboardStrings {
   static const String serviceOnlyNotice = "Service-only bookings are independent — they won't appear in your trip list.";
   static const String recommendedForYou = "Recommended for You";
   static const String viewAll = "View All";
+  static const String recentActivity = "Recent Activity";
 }
 
 class WizardStrings {
   WizardStrings._();
 
-  static const List<String> stepLabels = ['Basics', 'Destinations', 'Services', 'Itinerary', 'Review'];
+  static const List<String> stepLabels = ['Basics', 'Destinations', 'Participants', 'Services', 'Review'];
   static const String newTrip = "New Trip";
   static const String saveDraft = "Save Draft";
 }
@@ -279,6 +280,401 @@ class DestinationsStrings {
   static const String driveTime = "DRIVE TIME";
   static const String itineraryStops = "ITINERARY STOPS";
   static const String reorder = "Reorder";
+  static const String mapPreview = "Map Preview";
   static const String addDestination = "Add Another Destination";
+  static const String nextParticipants = "Next: Participants";
+  static const String prefilledFromPrefix = "Prefilled from: ";
+  static const String prefilledFromSuffix = " template — all destinations are editable — customize as needed.";
+}
+
+class ParticipantsStrings {
+  ParticipantsStrings._();
+
+  static const String title = "Who's going on this trip?";
+  static const String subtitle = "Student costs are calculated from logistics. Staff travel free as part of the group package.";
+  static const String costApplicableYes = "COST APPLICABLE · Yes";
+  static const String costApplicableNo = "COST APPLICABLE · No";
+  static const String minParticipantsError = "At least 1 participant is required to create a trip";
+  static const String vehicleCapacity = "Vehicle Capacity";
+  static const String fitsComfortably = "All participants fit comfortably";
+  static const String seatsSpareSuffix = "seats spare";
+  static const String overCapacity = "Over capacity for this vehicle class";
+  static const String ratioLabel = "Current Student-to-Staff Ratio is";
+  static const String ratioOptimal = "OPTIMAL";
+  static const String ratioReview = "REVIEW";
+  static const String summaryPreview = "Summary Preview";
+  static const String totalHeads = "TOTAL HEADS";
+  static const String estPerStudent = "EST. /STUDENT";
+  static const String estimatedTotal = "Estimated Total Cost";
   static const String nextServices = "Next: Services";
+}
+
+class ServicesStrings {
+  ServicesStrings._();
+
+  static const String title = "Services";
+  static const String infoNote = "All services are optional. Toggle on only what your trip needs. You can refine these details later during the finalization stage.";
+  static const String vehicle = "Vehicle";
+  static const String vehicleSubtitle = "Transport";
+  static const String hotel = "Hotel";
+  static const String hotelSubtitle = "Accommodation";
+  static const String restaurant = "Restaurant / Food";
+  static const String restaurantSubtitle = "Dining";
+  static const String activities = "Activities";
+  static const String activitiesSubtitle = "Experiences";
+  static const String chooseVehicle = "Choose Vehicle";
+  static const String chooseHotel = "Choose Hotel";
+  static const String chooseRestaurant = "Choose Restaurant";
+  static const String chooseActivities = "Choose Activities";
+  static const String addAnotherActivity = "+ Add Another Activity";
+  static const String change = "Change";
+  static const String costBreakdown = "SERVICES COST BREAKDOWN";
+  static const String vehicleTotal = "Vehicle Total";
+  static const String hotelTotal = "Hotel Total";
+  static const String diningTotal = "Dining Total";
+  static const String activitiesTotal = "Activities Total";
+  static const String subtotal = "Subtotal";
+  static const String managementBuffer = "Management Buffer (5%)";
+  static const String grandTotal = "GRAND TOTAL";
+  static const String perStudent = "PER STUDENT";
+  static const String nextReview = "Next: Review";
+  static const String generateItinerary = "Generate Itinerary";
+}
+
+class TransportSelectionStrings {
+  TransportSelectionStrings._();
+
+  static const String title = "Transport Selection";
+  static const String privateOperators = "Private Operators";
+  static const String privateOperatorsSubtitle = "Existing vendor network";
+  static const String recommended = "RECOMMENDED";
+  static const String ksrtc = "KSRTC";
+  static const String ksrtcSubtitle = "Kerala's official state transport corporation";
+  static const String mostTrusted = "MOST TRUSTED · BEST RATES";
+  static const String tapToContinue = "Tap a card to continue";
+}
+
+class VehicleTypeStrings {
+  VehicleTypeStrings._();
+
+  static const String title = "Select Vehicle Type";
+  static const String selectToView = "Select a type to view available fleet";
+  static const String acSleeperBus = "AC Sleeper Bus";
+  static const String acSleeperBusSubtitle = "Best for long-distance, large groups";
+  static const String nonAcSleeperBus = "Non-AC Sleeper Bus";
+  static const String nonAcSleeperBusSubtitle = "Budget-friendly option";
+  static const String tempoTraveller = "Tempo Traveller";
+  static const String tempoTravellerSubtitle = "Ideal for small to mid-size groups";
+  static const String miniBus = "Mini Bus";
+  static const String miniBusSubtitle = "Compact groups, shorter routes";
+  static const String car = "Car";
+  static const String carSubtitle = "Best for small groups, up to 7 people";
+}
+
+class VendorListingStrings {
+  VendorListingStrings._();
+
+  static const String bestMatch = "BEST MATCH";
+  static const String select = "Select";
+  static const String perTrip = "/trip";
+  static const String tripsSuffix = "trips";
+  static const String fitsYourGroup = "Fits your group";
+  static const String seatCapacity = "SEAT CAPACITY";
+}
+
+class SelectHotelStrings {
+  SelectHotelStrings._();
+
+  static const String title = "Select Hotel";
+  static const String searchHint = "Search hotels...";
+  static const String allDestinations = "All Destinations";
+  static const String allRatings = "All Ratings";
+  static const String budget = "Budget";
+  static const String fitsYourGroup = "Fits your group";
+  static const String insufficientCapacityPrefix = "Max";
+  static const String insufficientCapacitySuffix = "guests — insufficient";
+  static const String selectThisHotel = "Select This Hotel";
+  static const String perNight = "/night";
+}
+
+class HotelDetailStrings {
+  HotelDetailStrings._();
+
+  static const String about = "About";
+  static const String amenities = "Amenities";
+  static const String roomTypes = "Room Types";
+  static const String guestsSuffix = "GUESTS";
+  static const String roomsNeeded = "ROOMS NEEDED";
+  static const String mealPlan = "Meal Plan";
+  static const String breakfast = "Breakfast";
+  static const String lunch = "Lunch";
+  static const String dinner = "Dinner";
+  static const String addToTrip = "Add to Trip";
+}
+
+class ChooseRestaurantStrings {
+  ChooseRestaurantStrings._();
+
+  static const String title = "Choose a Restaurant";
+  static const String searchHint = "Search restaurants";
+  static const String vegOnly = "Veg Only";
+  static const String nonVegAvailable = "Non-Veg Available";
+  static const String underBudget = "Under ₹150";
+  static const String capacity = "CAPACITY";
+  static const String plan = "PLAN";
+  static const String mealsPerDaySuffix = "meals/day";
+  static const String avgCost = "AVG COST";
+  static const String perHead = "/head";
+  static const String viewMenu = "View Menu";
+}
+
+class RestaurantMenuStrings {
+  RestaurantMenuStrings._();
+
+  static const String titlePrefix = "Menu — ";
+  static const String stepPrefix = "STEP ";
+  static const String stepOf = " OF ";
+  static const String selectingDishesFor = "Selecting dishes for Day ";
+  static const String veg = "Veg";
+  static const String nonVeg = "Non-Veg";
+  static const String noDishesSelected = "No dishes selected yet";
+  static const String browseMenuHint = "Browse the menu below and tap + to add dishes for this day";
+  static const String continueToDay = "Continue to Day ";
+  static const String reviewAll = "Review All";
+  static const String dishesSelected = "dishes selected";
+  static const String planQuantities = "Plan quantities for this menu";
+}
+
+class RestaurantReviewStrings {
+  RestaurantReviewStrings._();
+
+  static const String title = "Review & Confirm";
+  static const String subtitle = "Final menu across all days";
+  static const String grandTotal = "Grand Total";
+  static const String addToTrip = "Add to Trip";
+}
+
+class VehicleDetailStrings {
+  VehicleDetailStrings._();
+
+  static const String operatorInfo = "OPERATOR INFO";
+  static const String fleetSize = "Fleet Size";
+  static const String baseLocation = "Base Location";
+  static const String contactNote = "Contact details managed by TripConsole — direct contact not permitted before booking confirmation.";
+  static const String tripSummary = "TRIP SUMMARY";
+  static const String reviews = "REVIEWS";
+  static const String viewAll = "View all";
+  static const String viewPricingDetails = "View Pricing Details";
+  static const String pricingDetailsTitle = "Pricing Details";
+  static const String baseFare = "Base Fare";
+  static const String driverAllowance = "Driver Allowance";
+  static const String nightHaltCharge = "Night Halt Charge";
+  static const String tollParking = "Toll and Parking";
+  static const String tollParkingNote = "Excluded — billed separately by the operator.";
+  static const String total = "Total";
+  static const String confirmSelection = "Confirm Selection";
+  static const String close = "Close";
+}
+
+class VehicleCapacityMismatchStrings {
+  VehicleCapacityMismatchStrings._();
+
+  static const String title = "Capacity Mismatch";
+  static const String heading = "The selected vehicle cannot accommodate your group";
+  static const String selectedVehicle = "SELECTED VEHICLE";
+  static const String yourParticipants = "YOUR PARTICIPANTS";
+  static const String shortfall = "SHORTFALL";
+  static const String chooseResolution = "CHOOSE A RESOLUTION";
+  static const String selectLargerTitle = "Select a larger vehicle";
+  static const String selectLargerRecommended = "RECOMMENDED";
+  static const String selectLargerBody = "Choose a vehicle class that fits all your participants.";
+  static const String browseVehicles = "Browse vehicles";
+  static const String addSecondTitle = "Add a second vehicle";
+  static const String addSecondBody = "Combine two vehicles to cover all participants.";
+  static const String browseSecondVehicle = "Browse second vehicle";
+  static const String reduceTitle = "Reduce participant count";
+  static const String reduceBody = "Go back and update participant numbers.";
+  static const String editParticipants = "Edit participants";
+}
+
+class MultiVehicleStrings {
+  MultiVehicleStrings._();
+
+  static const String needSuffix = "seats — need";
+  static const String vehiclesSelected = "vehicles selected";
+  static const String seatsCovered = "seats covered";
+  static const String continueLabel = "Continue";
+  static const String combineNotice = "This vehicle class seats fewer than your group — combine multiple vehicles to cover everyone.";
+}
+
+class RoutePreviewStrings {
+  RoutePreviewStrings._();
+
+  static const String title = "Route Preview";
+  static const String itineraryOverview = "Itinerary Overview";
+  static const String distance = "DISTANCE";
+  static const String estTime = "EST. TIME";
+  static const String routeLegs = "ROUTE LEGS";
+  static const String reorderRoute = "Reorder Route";
+  static const String mapPreview = "Map Preview";
+  static const String disclaimer = "Route and times are estimated. Actual times depend on traffic and stops.";
+  static const String looksGoodContinue = "Looks good — Continue";
+}
+
+class PickOnMapStrings {
+  PickOnMapStrings._();
+
+  static const String title = "Pick on Map";
+  static const String searchHint = "Search a location or place";
+  static const String confirmLocation = "Confirm Location";
+}
+
+class ReviewStrings {
+  ReviewStrings._();
+
+  static const String title = "Review & Confirm";
+  static const String pendingNotice = "This step is still being finalized in the design — a full review summary will land here soon.";
+  static const String tripSummary = "Trip Summary";
+  static const String destinations = "Destinations";
+  static const String participants = "Participants";
+  static const String services = "Services";
+  static const String estimatedCost = "Estimated Cost";
+  static const String submitForVerification = "Submit for Verification";
+}
+
+class StartingLocationStrings {
+  StartingLocationStrings._();
+
+  static const String title = "Choose Starting Location";
+  static const String searchHint = "Search for a place";
+  static const String searchingInKerala = "SEARCHING IN KERALA";
+  static const String recentLocations = "RECENT LOCATIONS";
+  static const String quickImport = "QUICK IMPORT";
+  static const String pasteUrlHint = "Paste a Google Maps link";
+  static const String confirmLocation = "Confirm Starting Location";
+}
+
+class AddDestinationStrings {
+  AddDestinationStrings._();
+
+  static const String title = "Add Destination";
+  static const String searchHint = "Search for a destination";
+  static const String recent = "RECENT";
+  static const String pickOnMap = "Pick on map";
+  static const String stayDuration = "How long will you stay?";
+  static const String stayDurationSublabel = "Nights at this stop";
+  static const String overnightStay = "Add overnight stay?";
+  static const String estimatedTravelTime = "Estimated travel time";
+  static const String notes = "NOTES";
+  static const String notesHint = "Any special instructions for this stop";
+  static const String addToRoute = "Add to Route";
+  static const String cancel = "Cancel";
+}
+
+class AddNewListingStrings {
+  AddNewListingStrings._();
+
+  static const String title = "How would you like to start?";
+  static const String scratchTitle = "Start from scratch";
+  static const String scratchBody = "Build a fully custom itinerary step by step.";
+  static const String templateTitle = "Use a reference template";
+  static const String templateBody = "Start from a ready-made route and customize it.";
+  static const String pilgrimageTitle = "Plan a Pilgrimage Trip";
+  static const String pilgrimageBody = "Sabarimala and other pilgrimage programs with coordinator management.";
+  static const String singleServiceTitle = "Book a Single Service";
+  static const String singleServiceBody = "Just need a hotel, vehicle or restaurant? Book it independently.";
+}
+
+class TripSetupStrings {
+  TripSetupStrings._();
+
+  static const String title = "Setting up your trip…";
+  static const String step1 = "Creating trip ID";
+  static const String step2 = "Prefilling destinations from template";
+  static const String step3 = "Loading suggested activities";
+  static const String step4 = "Opening trip builder";
+}
+
+class TemplatesStrings {
+  TemplatesStrings._();
+
+  static const String title = "Templates";
+  static const String searchHint = "Search templates";
+  static const String filters = "Filters";
+  static const String templatesFoundSuffix = "TEMPLATES FOUND";
+}
+
+class FilterTemplatesStrings {
+  FilterTemplatesStrings._();
+
+  static const String title = "Filter Templates";
+  static const String tripType = "TRIP TYPE";
+  static const String duration = "DURATION";
+  static const String category = "CATEGORY";
+  static const String budgetRange = "BUDGET RANGE";
+  static const String showResultsPrefix = "Show Results";
+  static const String reset = "Reset";
+}
+
+class PackageDetailStrings {
+  PackageDetailStrings._();
+
+  static const String about = "About";
+  static const String tripRoute = "Trip Route";
+  static const String includedServices = "Included Services";
+  static const String sampleItinerary = "Sample Itinerary";
+  static const String whatsIncluded = "What's Included";
+  static const String pricingBreakdown = "Pricing Breakdown";
+  static const String total = "Total";
+  static const String useThisTemplate = "Use This Template";
+  static const String addToTrip = "Add to Trip";
+}
+
+class MyTripsStrings {
+  MyTripsStrings._();
+
+  static const String title = "My Trips";
+  static const String filterAll = "All";
+  static const String tripsFoundSuffix = "TRIPS FOUND";
+  static const String emptyTitle = "No trips yet";
+  static const String emptyBody =
+      "Once you create a trip, it'll show up here with live status, costs and approvals.";
+  static const String emptyFeature1 = "Auto-generated itinerary";
+  static const String emptyFeature2 = "Transparent cost console";
+  static const String emptyFeature3 = "Institutional-grade approval documents";
+  static const String createFirstTrip = "CREATE YOUR FIRST TRIP";
+  static const String browseTemplates = "Browse reference templates";
+}
+
+class ProfileStrings {
+  ProfileStrings._();
+
+  static const String title = "Profile";
+  static const String accountDetails = "Account Details";
+  static const String fullName = "Full Name";
+  static const String email = "Email";
+  static const String mobile = "Mobile";
+  static const String city = "City";
+  static const String institution = "Institution";
+  static const String security = "Security";
+  static const String changePassword = "Change Password";
+  static const String twoFactorAuth = "Two-Factor Authentication";
+  static const String preferences = "Preferences";
+  static const String pushNotifications = "Push Notifications";
+  static const String emailAlerts = "Email Alerts";
+  static const String smsAlerts = "SMS Alerts";
+  static const String supportLegal = "Support & Legal";
+  static const String helpCenter = "Help Center";
+  static const String terms = "Terms of Service";
+  static const String privacy = "Privacy Policy";
+  static const String appVersion = "App Version";
+  static const String dangerZone = "Danger Zone";
+  static const String logout = "Log Out";
+  static const String deleteAccount = "Delete Account";
+  static const String logoutConfirmTitle = "Log out?";
+  static const String logoutConfirmBody = "You'll need to sign in again to access your trips.";
+  static const String deleteConfirmTitle = "Delete account?";
+  static const String deleteConfirmBody =
+      "This permanently deletes your account and all trip data. This cannot be undone.";
+  static const String cancel = "Cancel";
 }

@@ -2,10 +2,11 @@ import 'package:flutter/foundation.dart';
 
 import '../models/trip_type.dart';
 import '../models/itinerary_stop.dart';
+import '../models/vendor_option.dart';
 
 /// Holds the in-progress draft of a trip as the organizer moves through the
-/// 5-step trip-creation wizard (Basics → Destinations → Services →
-/// Participants → Review). Scoped to the wizard's navigation stack.
+/// 5-step trip-creation wizard (Basics → Destinations → Participants →
+/// Services → Review). Scoped to the wizard's navigation stack.
 class NewTripProvider extends ChangeNotifier {
   String tripId = '';
   String tripName = '';
@@ -27,11 +28,24 @@ class NewTripProvider extends ChangeNotifier {
 
   String emergencyContactName = '';
   String emergencyContactPhone = '';
+  String startingLocationName = 'Kochi';
+  String startingLocationRegion = 'Ernakulam District, Kerala, India';
+  String? sourceTemplateName;
   final List<ItineraryStop> stops = [
     const ItineraryStop(name: 'Munnar', region: 'Idukki District, Kerala, India', nights: 2, etaFromPrevious: '4h 30m from Kochi'),
     const ItineraryStop(name: 'Thekkady', region: 'Periyar, Kerala, India', nights: 1, etaFromPrevious: '3h 15m from Munnar'),
     const ItineraryStop(name: 'Kodaikanal', region: 'Dindigul, Tamil Nadu, India', nights: 1, etaFromPrevious: '4h 45m from Thekkady'),
   ];
+
+  // Services (Step 4) fields
+  bool vehicleEnabled = false;
+  VendorOption? vehicle;
+  bool hotelEnabled = false;
+  VendorOption? hotel;
+  bool restaurantEnabled = false;
+  VendorOption? restaurant;
+  bool activitiesEnabled = false;
+  final List<VendorOption> activities = [];
 
   void setTripName(String value) {
     tripName = value;
@@ -93,5 +107,93 @@ class NewTripProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setStartingLocation(String name, String region) {
+    startingLocationName = name;
+    startingLocationRegion = region;
+    notifyListeners();
+  }
+
+  void addStop(ItineraryStop stop) {
+    stops.add(stop);
+    notifyListeners();
+  }
+
+  void removeStop(int index) {
+    stops.removeAt(index);
+    notifyListeners();
+  }
+
+  void setSourceTemplate(String name) {
+    sourceTemplateName = name;
+    notifyListeners();
+  }
+
+  void setVehicleEnabled(bool value) {
+    vehicleEnabled = value;
+    notifyListeners();
+  }
+
+  void setVehicle(VendorOption option) {
+    vehicle = option;
+    vehicleEnabled = true;
+    notifyListeners();
+  }
+
+  void setHotelEnabled(bool value) {
+    hotelEnabled = value;
+    notifyListeners();
+  }
+
+  void setHotel(VendorOption option) {
+    hotel = option;
+    hotelEnabled = true;
+    notifyListeners();
+  }
+
+  void setRestaurantEnabled(bool value) {
+    restaurantEnabled = value;
+    notifyListeners();
+  }
+
+  void setRestaurant(VendorOption option) {
+    restaurant = option;
+    restaurantEnabled = true;
+    notifyListeners();
+  }
+
+  void setActivitiesEnabled(bool value) {
+    activitiesEnabled = value;
+    notifyListeners();
+  }
+
+  void addActivity(VendorOption option) {
+    activities.add(option);
+    activitiesEnabled = true;
+    notifyListeners();
+  }
+
   int get totalNights => stops.fold(0, (sum, stop) => sum + stop.nights);
+
+  /// Everyone traveling, including non-cost-bearing staff/companions.
+  int get totalParticipants => switch (tripType) {
+        TripType.individual => 1 + (travelingWithCompanion ? 1 : 0),
+        TripType.group => membersCount + companionsCount,
+        TripType.college || TripType.school => studentsCount + staffCount,
+      };
+
+  /// Only the participants pricing is calculated against.
+  int get costBearingCount => switch (tripType) {
+        TripType.individual => 1 + (travelingWithCompanion ? 1 : 0),
+        TripType.group => membersCount,
+        TripType.college || TripType.school => studentsCount,
+      };
+
+  int get vehicleTotal => vehicleEnabled ? (vehicle?.price ?? 0) : 0;
+  int get hotelTotal => hotelEnabled ? (hotel?.price ?? 0) : 0;
+  int get diningTotal => restaurantEnabled ? (restaurant?.price ?? 0) : 0;
+  int get activitiesTotal => activitiesEnabled ? activities.fold(0, (sum, a) => sum + a.price) : 0;
+  int get servicesSubtotal => vehicleTotal + hotelTotal + diningTotal + activitiesTotal;
+  int get managementBuffer => (servicesSubtotal * 0.05).round();
+  int get servicesGrandTotal => servicesSubtotal + managementBuffer;
+  int get perParticipantCost => costBearingCount == 0 ? 0 : (servicesGrandTotal / costBearingCount).round();
 }
