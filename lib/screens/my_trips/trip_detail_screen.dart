@@ -117,6 +117,14 @@ class TripDetailScreen extends StatelessWidget {
                 ),
               ),
             ],
+            if (isFullyPaid) ...[
+              const SizedBox(height: 20),
+              Text(TripDetailStrings.transportAndLogistics, style: AppTextStyles.labelCaps()),
+              const SizedBox(height: 10),
+              _BusServiceCard(trip: trip),
+              const SizedBox(height: 10),
+              const _TourGuideAddOnRow(),
+            ],
             if (trip.status == TripStatus.paid || trip.status == TripStatus.completed) ...[
               const SizedBox(height: 20),
               Text(TripDetailStrings.documents, style: AppTextStyles.labelCaps()),
@@ -390,6 +398,92 @@ class _CostRow extends StatelessWidget {
         children: [
           Text(label, style: AppTextStyles.bodySm(color: AppColors.textDark)),
           Text('₹$amount', style: AppTextStyles.bodySm(color: AppColors.textDark).copyWith(fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+}
+
+class _BusServiceCard extends StatelessWidget {
+  const _BusServiceCard({required this.trip});
+
+  final TripSummary trip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: const Color(0xFFF5F3F3), borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.directions_bus_filled_rounded, size: 18, color: AppColors.textDark),
+              const SizedBox(width: 8),
+              Expanded(child: Text(TripDetailStrings.busService, style: AppTextStyles.bodyLg(color: AppColors.textDark).copyWith(fontWeight: FontWeight.w600))),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(color: AppColors.primaryGreen.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(6)),
+                child: Text(TripDetailStrings.fullyPaidBadge, style: AppTextStyles.labelCaps(color: AppColors.primaryGreen).copyWith(fontSize: 9)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(height: 90, width: double.infinity, color: AppColors.mintGreen.withValues(alpha: 0.3), child: const Icon(Icons.map_rounded, size: 28, color: AppColors.primaryGreen)),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text(TripDetailStrings.viewETicket, style: AppTextStyles.bodySm(color: AppColors.textDark).copyWith(fontSize: 12)),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text(TripDetailStrings.share, style: AppTextStyles.bodySm(color: AppColors.textDark).copyWith(fontSize: 12)),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TourGuideAddOnRow extends StatelessWidget {
+  const _TourGuideAddOnRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: const Color(0xFFF5F3F3), borderRadius: BorderRadius.circular(12)),
+      child: Row(
+        children: [
+          const Icon(Icons.person_pin_circle_rounded, size: 18, color: AppColors.textDark),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(TripDetailStrings.tourGuide, style: AppTextStyles.bodyLg(color: AppColors.textDark).copyWith(fontWeight: FontWeight.w600)),
+                Text(TripDetailStrings.optionalAddOn, style: AppTextStyles.bodySm().copyWith(fontSize: 12)),
+              ],
+            ),
+          ),
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.accentOrange)),
+            onPressed: () => context.push(AppRouter.chooseGuide),
+            child: Text(TripDetailStrings.add, style: AppTextStyles.bodySm(color: AppColors.accentOrange).copyWith(fontWeight: FontWeight.w600)),
+          ),
         ],
       ),
     );

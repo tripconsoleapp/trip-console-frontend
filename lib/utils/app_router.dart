@@ -77,6 +77,29 @@ import '../screens/service_booking/restaurant_menu_planning_screen.dart';
 import '../screens/service_booking/meal_booking_summary_screen.dart';
 import '../screens/service_booking/sending_meal_request_screen.dart';
 import '../screens/service_booking/meal_booking_sent_screen.dart';
+import '../models/tour_guide.dart';
+import '../screens/trip_builder/ksrtc_bus_list_screen.dart';
+import '../screens/trip_builder/booking_submitted_screen.dart';
+import '../screens/trip_builder/bus_approved_screen.dart';
+import '../screens/trip_builder/ksrtc_booking_summary_screen.dart';
+import '../screens/trip_builder/ksrtc_booking_confirmation_screen.dart';
+import '../screens/trip_builder/payment_split_setup_screen.dart';
+import '../screens/trip_builder/member_payment_collection_screen.dart';
+import '../screens/trip_builder/payment_progress_tracker_screen.dart';
+import '../screens/trip_builder/full_amount_consolidated_screen.dart';
+import '../screens/trip_builder/ksrtc_transfer_confirmation_screen.dart';
+import '../screens/trip_builder/ksrtc_eticket_screen.dart';
+import '../screens/trip_builder/share_processing_screen.dart';
+import '../screens/trip_builder/share_success_screen.dart';
+import '../screens/guide/choose_guide_screen.dart';
+import '../screens/guide/guide_profile_screen.dart';
+import '../screens/pilgrimage/pilgrimage_trip_mode_screen.dart';
+import '../screens/pilgrimage/pilgrimage_trip_setup_screen.dart';
+import '../screens/pilgrimage/pilgrimage_templates_screen.dart';
+import '../screens/pilgrimage/sabarimala_template_preview_screen.dart';
+import '../screens/pilgrimage/pilgrimage_trip_structure_screen.dart';
+import '../screens/pilgrimage/pilgrimage_seat_count_screen.dart';
+import '../screens/pilgrimage/pilgrimage_bus_search_screen.dart';
 
 /// Central route table. New screens register a route here as they're
 /// converted from Figma, in the same order as the project's screen list.
@@ -152,6 +175,28 @@ class AppRouter {
   static const String mealBookingSummary = '/service/restaurant/summary';
   static const String sendingMealRequest = '/service/restaurant/sending';
   static const String mealBookingSent = '/service/restaurant/sent';
+  static const String ksrtcBusList = '/trip/services/vehicle/ksrtc/buses';
+  static const String bookingSubmitted = '/trip/services/vehicle/ksrtc/submitted';
+  static const String busApproved = '/trip/services/vehicle/ksrtc/approved';
+  static const String ksrtcBookingSummary = '/trip/services/vehicle/ksrtc/summary';
+  static const String ksrtcBookingConfirmation = '/trip/services/vehicle/ksrtc/confirmation';
+  static const String paymentSplitSetup = '/trip/services/vehicle/ksrtc/payment/split';
+  static const String memberPaymentCollection = '/trip/services/vehicle/ksrtc/payment/collection';
+  static const String paymentProgressTracker = '/trip/services/vehicle/ksrtc/payment/tracker';
+  static const String fullAmountConsolidated = '/trip/services/vehicle/ksrtc/payment/consolidated';
+  static const String ksrtcTransferConfirmation = '/trip/services/vehicle/ksrtc/payment/transfer';
+  static const String ksrtcETicket = '/trip/services/vehicle/ksrtc/eticket';
+  static const String shareProcessing = '/trip/services/vehicle/ksrtc/eticket/sharing';
+  static const String shareSuccess = '/trip/services/vehicle/ksrtc/eticket/shared';
+  static const String chooseGuide = '/trip-detail/guide';
+  static const String guideProfile = '/trip-detail/guide/profile';
+  static const String pilgrimageTripMode = '/pilgrimage/trip-mode';
+  static const String pilgrimageTripSetup = '/pilgrimage/trip-setup';
+  static const String pilgrimageTemplates = '/pilgrimage/templates';
+  static const String sabarimalaTemplatePreview = '/pilgrimage/templates/sabarimala';
+  static const String pilgrimageTripStructure = '/pilgrimage/trip-structure';
+  static const String pilgrimageSeatCount = '/pilgrimage/seat-count';
+  static const String pilgrimageBusSearch = '/pilgrimage/ksrtc/search';
 
   static GoRouter router(BuildContext context) {
     return GoRouter(
@@ -307,6 +352,31 @@ class AppRouter {
         GoRoute(path: mealBookingSummary, builder: (ctx, state) => const MealBookingSummaryScreen()),
         GoRoute(path: sendingMealRequest, builder: (ctx, state) => const SendingMealRequestScreen()),
         GoRoute(path: mealBookingSent, builder: (ctx, state) => const MealBookingSentScreen()),
+        GoRoute(path: ksrtcBusList, builder: (ctx, state) => const KsrtcBusListScreen()),
+        GoRoute(path: bookingSubmitted, builder: (ctx, state) => const BookingSubmittedScreen()),
+        GoRoute(path: busApproved, builder: (ctx, state) => const BusApprovedScreen()),
+        GoRoute(path: ksrtcBookingSummary, builder: (ctx, state) => const KsrtcBookingSummaryScreen()),
+        GoRoute(path: ksrtcBookingConfirmation, builder: (ctx, state) => const KsrtcBookingConfirmationScreen()),
+        GoRoute(path: paymentSplitSetup, builder: (ctx, state) => const PaymentSplitSetupScreen()),
+        GoRoute(path: memberPaymentCollection, builder: (ctx, state) => const MemberPaymentCollectionScreen()),
+        GoRoute(path: paymentProgressTracker, builder: (ctx, state) => const PaymentProgressTrackerScreen()),
+        GoRoute(path: fullAmountConsolidated, builder: (ctx, state) => const FullAmountConsolidatedScreen()),
+        GoRoute(path: ksrtcTransferConfirmation, builder: (ctx, state) => const KsrtcTransferConfirmationScreen()),
+        GoRoute(path: ksrtcETicket, builder: (ctx, state) => const KsrtcETicketScreen()),
+        GoRoute(path: shareProcessing, builder: (ctx, state) => const ShareProcessingScreen()),
+        GoRoute(path: shareSuccess, builder: (ctx, state) => const ShareSuccessScreen()),
+        GoRoute(path: chooseGuide, builder: (ctx, state) => const ChooseGuideScreen()),
+        GoRoute(
+          path: guideProfile,
+          builder: (ctx, state) => GuideProfileScreen(guide: state.extra as TourGuide),
+        ),
+        GoRoute(path: pilgrimageTripMode, builder: (ctx, state) => const PilgrimageTripModeScreen()),
+        GoRoute(path: pilgrimageTripSetup, builder: (ctx, state) => const PilgrimageTripSetupScreen()),
+        GoRoute(path: pilgrimageTemplates, builder: (ctx, state) => const PilgrimageTemplatesScreen()),
+        GoRoute(path: sabarimalaTemplatePreview, builder: (ctx, state) => const SabarimalaTemplatePreviewScreen()),
+        GoRoute(path: pilgrimageTripStructure, builder: (ctx, state) => const PilgrimageTripStructureScreen()),
+        GoRoute(path: pilgrimageSeatCount, builder: (ctx, state) => const PilgrimageSeatCountScreen()),
+        GoRoute(path: pilgrimageBusSearch, builder: (ctx, state) => const PilgrimageBusSearchScreen()),
       ],
       errorBuilder: (ctx, state) => Scaffold(
         body: Center(child: Text('Page not found: ${state.uri.path}')),

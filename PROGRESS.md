@@ -763,3 +763,171 @@ reset. Also separately verified Select Meal Types (headcount editor,
 dynamic "Confirm Meal Types (...)" label) in a clean single-click pass.
 `flutter analyze` clean (zero errors/warnings; only pre-existing
 `prefer_const_constructors` info lints).
+
+---
+
+## 2026-07-21 — Session 9: KSRTC Integration + Pilgrimage Console (built in 5 sequenced phases)
+
+The user supplied 7 screenshots covering two large, intertwined feature
+areas — a deep KSRTC (Kerala State Road Transport Corporation) bus
+booking/verification/pooled-payment/e-ticket subsystem, and the
+standalone "Pilgrimage Console" behind Home's "Plan Pilgrimage Program"
+card (previously an empty no-op `onTap: () {}`). Audited first: of 26
+implied frames, only one partially existed (Transport Selection's
+Private-vs-KSRTC choice, which resolved KSRTC to one hardcoded vendor
+with no browsable list). Everything else — the entire bus-class listing,
+admin verification layer, split/pooled-payment collection, e-ticket +
+sharing, guide marketplace, and the whole Pilgrimage Console shell — was
+new. Built in 5 sequenced phases per the user's request, largest batch
+of the project so far (23 new screens/widgets across three feature
+areas).
+
+### Phase 1 — KSRTC bus list, booking, admin verification
+
+| Screen | File |
+|---|---|
+| KSRTC Buses (District/Interstate tabs) | `lib/screens/trip_builder/ksrtc_bus_list_screen.dart` |
+| Booking Submitted (admin verification wait) | `lib/screens/trip_builder/booking_submitted_screen.dart` |
+| Bus Approved | `lib/screens/trip_builder/bus_approved_screen.dart` |
+| KSRTC Booking Summary | `lib/screens/trip_builder/ksrtc_booking_summary_screen.dart` |
+| Booking Confirmation | `lib/screens/trip_builder/ksrtc_booking_confirmation_screen.dart` |
+
+New model `lib/models/ksrtc_bus.dart` (flat institutional bus-hire fare,
+not the per-head vendor-quote shape `VendorOption` uses — genuinely
+different pricing model, so a dedicated model was built rather than
+extending `VendorOption`).
+
+### Phase 2 — Split/pooled-payment collection
+
+| Screen | File |
+|---|---|
+| Payment Split Setup | `lib/screens/trip_builder/payment_split_setup_screen.dart` |
+| Member Payment Collection | `lib/screens/trip_builder/member_payment_collection_screen.dart` |
+| Payment Progress Tracker | `lib/screens/trip_builder/payment_progress_tracker_screen.dart` |
+| Full Amount Consolidated | `lib/screens/trip_builder/full_amount_consolidated_screen.dart` |
+| KSRTC Transfer Confirmation | `lib/screens/trip_builder/ksrtc_transfer_confirmation_screen.dart` |
+
+This is genuinely new architecture — no split/per-member payment concept
+existed anywhere in the app before this (the existing Payment Plan/
+Method/Processing/Result/Receipt flow is single-payer only). New mutable
+model `lib/models/ksrtc_member_entry.dart` (name/share/status, since
+status changes via remind/mark-as-cash actions).
+
+### Phase 3 — E-Ticket, sharing, Trip Detail integration
+
+| Screen | File |
+|---|---|
+| E-Ticket | `lib/screens/trip_builder/ksrtc_eticket_screen.dart` |
+| Share Processing | `lib/screens/trip_builder/share_processing_screen.dart` |
+| Share Success | `lib/screens/trip_builder/share_success_screen.dart` |
+
+Added a **Transport & Logistics** section to the existing
+`trip_detail_screen.dart` (shown when a trip is fully paid) — a Bus
+Service card (FULLY PAID badge, View E-Ticket/Share) and a Tourist Guide
+"Optional Add-on" row, matching the "Trip Details — KSRTC Status Card"
+screenshot. Uses illustrative static content the same way the existing
+Documents/Cost Breakdown sections do, rather than threading a specific
+`KsrtcBookingProvider` instance through (Trip Detail instances represent
+arbitrary trips in My Trips, not necessarily ones built through this
+exact KSRTC flow in this session).
+
+### Phase 4 — Guide marketplace
+
+| Screen | File |
+|---|---|
+| Choose a Guide | `lib/screens/guide/choose_guide_screen.dart` |
+| Guide Profile | `lib/screens/guide/guide_profile_screen.dart` |
+
+New model `lib/models/tour_guide.dart`. Reached from Trip Detail's new
+Tourist Guide add-on row; booking pops back to Trip Detail with a
+confirmation SnackBar (no dedicated confirmation screen was shown for
+this in the screenshots).
+
+### Phase 5 — Pilgrimage Console shell
+
+| Screen | File |
+|---|---|
+| Trip Mode (Self-Managed vs KSRTC Collaboration) | `lib/screens/pilgrimage/pilgrimage_trip_mode_screen.dart` |
+| Trip Setup (Scratch vs Template) | `lib/screens/pilgrimage/pilgrimage_trip_setup_screen.dart` |
+| Browse Pilgrimage Templates | `lib/screens/pilgrimage/pilgrimage_templates_screen.dart` |
+| Sabarimala Template Preview (Route Planning) | `lib/screens/pilgrimage/sabarimala_template_preview_screen.dart` |
+| Trip Structure Selection (Large/Small Group) | `lib/screens/pilgrimage/pilgrimage_trip_structure_screen.dart` |
+| Seat Count & Capacity | `lib/screens/pilgrimage/pilgrimage_seat_count_screen.dart` |
+| KSRTC Bus Search (bridge screen) | `lib/screens/pilgrimage/pilgrimage_bus_search_screen.dart` |
+
+New provider `lib/providers/pilgrimage_provider.dart` and model
+`lib/models/pilgrimage_template.dart`. Home Dashboard's "Plan Pilgrimage
+Program" card now opens this flow.
+
+### Decisions made without asking (flag if wrong)
+
+- **New `KsrtcBookingProvider` and `PilgrimageProvider`**, both
+  self-contained (own trip name/route/passenger fields) rather than
+  reading `NewTripProvider`, so the KSRTC pipeline can be entered from
+  either the main trip wizard's Transport Selection step *or* the
+  standalone Pilgrimage Console — the same "settable defaults, no tight
+  coupling" pattern used by the Hotel/Restaurant Only Booking providers.
+- **Pilgrimage Console bridges into the already-built KSRTC pipeline**
+  rather than duplicating it: `PilgrimageBusSearchScreen` copies the
+  pilgrimage group's destination/headcount into `KsrtcBookingProvider`
+  and pushes the *same* `KsrtcBusListScreen` (and everything after it)
+  built in Phase 1. Verified live: a Sabarimala pilgrimage with 4
+  travelers flowed through bus selection → admin verification → booking
+  → 4-way payment split → full collection → KSRTC transfer → e-ticket →
+  group share, with every number (fare, per-person split, service fee)
+  computed correctly from the real pilgrimage headcount.
+- **Booking Submitted (admin verification) auto-approves after ~2.2s**
+  rather than requiring the user to leave and return — same simulated-
+  wait pattern as `TripSetupLoadingScreen`, since the real 30-minute
+  admin review can't be usefully demonstrated in a prototype.
+- **Existing Transport Selection's KSRTC card was rewired**: it used to
+  resolve directly to one hardcoded `VendorOption` via `vehicleDetail`;
+  it now opens the real browsable `KsrtcBusListScreen`, since that's a
+  strictly more complete implementation of the same feature, not a
+  parallel one.
+- **Member payment list is seeded with a realistic mix of Paid/Pending/
+  Not Sent statuses** (not all "Not Sent") when collection starts, so
+  the Member Payment Collection and Payment Progress Tracker screens
+  have something meaningful to show immediately — matches the
+  screenshots, which show a partially-collected state, not an empty one.
+- **Guide "Book This Guide" and the Restaurant/Hotel-style confirm
+  screens all pop with a SnackBar** rather than a dedicated confirmation
+  screen, since none was shown in the screenshots for this specific
+  action.
+
+### Explicitly deferred (not built, not silently skipped)
+
+- Nothing from this screenshot batch was skipped — all 26 identified
+  frames across both feature areas were built, either as a dedicated
+  screen or, where two frames described the same step from different
+  angles (e.g. "Sending Meal Request"-style admin-verification wait),
+  consolidated per the reasoning above.
+- Vehicle's Home-dashboard Service Only chip is still unwired (no
+  screenshots yet for a standalone Vehicle-only booking flow).
+
+Verified live end-to-end in the browser preview across two full passes:
+(1) Pilgrimage Console: Home → Plan Pilgrimage Program → Trip Mode
+(KSRTC Collaboration) → Trip Setup (Use a Template) → Browse Templates →
+Sabarimala preview → Customise & Continue → Trip Structure (Large Group)
+→ Seat Count (3 pilgrims + 1 staff) → KSRTC Bus Search (auto-filled from
+template) → Search Buses → KSRTC Buses (4 Passengers · Kochi → Sabarimala,
+correct) → selected Minnal Super Deluxe Air Bus → auto-verified → Bus
+Approved → Booking Summary (₹18900 fare, ₹4725/person, correct) →
+Confirm Booking → Booking Confirmation (₹19500 due, correct) → Collect
+Group Payment → Payment Split Setup (₹4875/person for 4 members,
+correct) → Start Collection → Member Payment Collection (marked all 4
+paid, progress recalculated 25%→50%→75%→100% correctly at each step) →
+Payment Progress Tracker (100%, 4 Paid/0 Pending) → Full Amount
+Consolidated → Transfer to KSRTC → Transfer Confirmation (correct
+receipts) → Download E-Ticket → E-Ticket (correct QR/reference/route) →
+Share with Group → Share Processing (auto) → Share Success ("4
+recipients", correct). (2) Trip Detail integration: My Trips → Kerala
+Pilgrimage Tour (Fully Paid) → Transport & Logistics section (Bus
+Service card + Tourist Guide row, matches screenshot) → Add → Choose a
+Guide (4 guides, correct filters/badges) → Anandu Krishnan profile
+(matches screenshot) → Book This Guide → confirmation SnackBar on
+return. (3) Confirmed the original trip-wizard entry point (Transport
+Selection → KSRTC card) now opens the same real bus list instead of the
+old hardcoded shortcut. `flutter analyze` clean throughout all 5 phases
+(zero errors/warnings; only pre-existing `prefer_const_constructors`
+info lints, 81 total consistent with the rest of the app).

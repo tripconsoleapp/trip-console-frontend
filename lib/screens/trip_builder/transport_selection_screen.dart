@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../models/vendor_option.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_text_styles.dart';
 import '../../utils/app_constants.dart';
@@ -9,18 +8,11 @@ import '../../utils/app_router.dart';
 
 /// First step of the vehicle-selection sub-flow — choose between the
 /// private-operator marketplace (goes on to pick a vehicle type and browse
-/// operators) or KSRTC (state transport, resolves directly to a standard
-/// fleet option since it isn't a browsable marketplace).
+/// operators) or KSRTC (state transport, opens the browsable KSRTC fleet
+/// listing which then runs the full admin-verification + pooled-payment
+/// pipeline).
 class TransportSelectionScreen extends StatelessWidget {
   const TransportSelectionScreen({super.key});
-
-  static const _ksrtcOption = VendorOption(
-    name: 'KSRTC AC Sleeper Bus',
-    subtitle: '52 seats · State transport corporation',
-    price: 45000,
-    badge: 'OFFICIAL FLEET',
-    seatCapacity: 52,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +44,7 @@ class TransportSelectionScreen extends StatelessWidget {
                 subtitle: TransportSelectionStrings.ksrtcSubtitle,
                 badge: TransportSelectionStrings.mostTrusted,
                 highlighted: false,
-                onTap: () => context.push(AppRouter.vehicleDetail, extra: _ksrtcOption),
+                onTap: () => context.push(AppRouter.ksrtcBusList),
               ),
               const SizedBox(height: 16),
               Center(

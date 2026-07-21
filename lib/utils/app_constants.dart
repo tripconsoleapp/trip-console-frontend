@@ -710,6 +710,14 @@ class TripDetailStrings {
   static const String needHelp = "Need Help?";
   static const String conciergeSupportBody = "24/7 Digital Concierge Support";
   static const String chatNow = "Chat Now";
+  static const String transportAndLogistics = "TRANSPORT & LOGISTICS";
+  static const String busService = "Bus Service";
+  static const String fullyPaidBadge = "FULLY PAID";
+  static const String viewETicket = "View E-Ticket";
+  static const String share = "Share";
+  static const String tourGuide = "Tourist Guide";
+  static const String optionalAddOn = "Optional Add-on";
+  static const String add = "Add";
 }
 
 class PaymentPlanStrings {
@@ -1118,6 +1126,378 @@ class MealBookingSentStrings {
   static const String step3Body = "Complete 30% advance payment to lock booking.";
   static const String viewAllBookings = "View All Bookings";
   static const String goToDashboard = "Go to Dashboard →";
+}
+
+class TransportSelectionKsrtcStrings {
+  TransportSelectionKsrtcStrings._();
+
+  static const String official = "OFFICIAL FLEET";
+}
+
+class KsrtcBusListStrings {
+  KsrtcBusListStrings._();
+
+  static const String title = "KSRTC Buses";
+  static const String passengersSuffix = "Passengers";
+  static const String districtToDistrict = "District to District";
+  static const String interstate = "Interstate";
+  static const String select = "Select";
+}
+
+class BookingSubmittedStrings {
+  BookingSubmittedStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → ADMIN VERIFICATION";
+  static const String layerLabel = "LAYER 1 · VERIFICATION";
+  static const String title = "Booking Submitted";
+  static const String heading = "Awaiting Admin Verification";
+  static const String body = "Your selected bus has been sent to the TripConsole admin team for verification before you can continue building this trip.";
+  static const String etaNote = "Verification usually takes under 30 minutes. You'll be notified the moment it's approved, you can continue selecting hotels, restaurants, and activities.";
+  static const String backToDashboard = "Back to Dashboard";
+}
+
+class BusApprovedStrings {
+  BusApprovedStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → VERIFICATION COMPLETE";
+  static const String layerLabel = "LAYER 1 · VERIFIED";
+  static const String title = "Bus Approved";
+  static const String verifiedByAdmin = "Verified by Admin";
+  static const String body = "Your bus booking is confirmed. You can now continue building this trip.";
+  static const String busSelected = "Bus Selected";
+  static const String adminVerification = "Admin Verification";
+  static const String continueTripSetup = "Continue Trip Setup";
+  static const String verified = "VERIFIED";
+  static const String continueTrip = "Continue Trip";
+}
+
+class KsrtcBookingSummaryStrings {
+  KsrtcBookingSummaryStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → BOOKING SUMMARY";
+  static const String layerLabel = "LAYER 2 · BOOKING API BEGINS";
+  static const String title = "Booking Summary";
+  static const String route = "ROUTE";
+  static const String busDetails = "BUS DETAILS";
+  static const String totalPassengers = "TOTAL PASSENGERS";
+  static const String baseFare = "Base Fare (Institutional Rate)";
+  static const String costPerPerson = "Cost Per Person";
+  static const String registerNote = "Once confirmed, this booking is registered with KSRTC and cannot be changed without cancellation charges.";
+  static const String changeBus = "Change Bus";
+  static const String confirmBooking = "Confirm Booking";
+}
+
+class KsrtcBookingConfirmationStrings {
+  KsrtcBookingConfirmationStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → BOOKING CONFIRMED";
+  static const String layerLabel = "Layer 2 · Booking API ends";
+  static const String title = "Booking Confirmation";
+  static const String busBooked = "KSRTC Bus Booked!";
+  static const String body = "Your booking is confirmed in KSRTC's system. Complete group payment to finalize.";
+  static const String reserved = "Reserved";
+  static const String payment = "Payment";
+  static const String ticket = "Ticket";
+  static const String reference = "Reference";
+  static const String bus = "Bus";
+  static const String routeAndDate = "Route & Date";
+  static const String paymentDue = "Payment Due";
+  static const String paymentDeadline = "Payment Deadline";
+  static const String liveRoutePreview = "LIVE ROUTE PREVIEW";
+  static const String expiryNote = "Booking expires automatically if payment is not received within the deadline.";
+  static const String collectGroupPayment = "Collect Group Payment";
+}
+
+class PaymentSplitSetupStrings {
+  PaymentSplitSetupStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → PAYMENT SPLIT";
+  static const String layerLabel = "Layer 3 · Payment begins";
+  static const String title = "Payment Split Setup";
+  static const String fareBreakdown = "FARE BREAKDOWN";
+  static const String totalBusHire = "Total Bus Hire";
+  static const String tripConsoleServiceFee = "TripConsole Service Fee";
+  static const String totalToCollect = "Total to Collect";
+  static const String splitAcrossPrefix = "Split across ";
+  static const String splitAcrossSuffix = " members";
+  static const String includeStaff = "Include staff target";
+  static const String perPersonAmount = "PER PERSON AMOUNT";
+  static const String amountAdjustedNote = "Amount adjusted based on current member count.";
+  static const String collectionMethod = "COLLECTION METHOD";
+  static const String shareUpiLink = "Share UPI Link";
+  static const String shareUpiLinkBody = "Members pay directly via app";
+  static const String organizerCollects = "Organizer Collects";
+  static const String organizerCollectsBody = "Mark payments as received manually";
+  static const String automationNote = "Collecting via UPI link automates tracking. You'll receive a notification for each member's successful transaction.";
+  static const String startCollection = "Start Collection";
+}
+
+class MemberPaymentCollectionStrings {
+  MemberPaymentCollectionStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → PAYMENT COLLECTION";
+  static const String layerLabel = "Layer 3 · Payment";
+  static const String title = "Member Payment Collection";
+  static const String collectedOfPrefix = "of ";
+  static const String collectedSuffix = " collected";
+  static const String membersPrefix = "MEMBERS (";
+  static const String paid = "PAID";
+  static const String pending = "PENDING";
+  static const String notSent = "NOT SENT";
+  static const String remind = "Remind";
+  static const String markAsCash = "Mark as Cash";
+  static const String sendLink = "Send Link";
+  static const String sendRemindersToAllPending = "Send Reminders to All Pending";
+}
+
+class PaymentProgressTrackerStrings {
+  PaymentProgressTrackerStrings._();
+
+  static const String title = "Payment Progress Tracker";
+  static const String collected = "COLLECTED";
+  static const String collectedOfNeededPrefix = "";
+  static const String collectedOfNeededMid = " collected / ";
+  static const String collectedOfNeededSuffix = " needed";
+  static const String paid = "Paid";
+  static const String pendingLabel = "Pending";
+  static const String daysLeft = "Days Left";
+  static const String warningPrefix = "days left — ";
+  static const String warningSuffix = " still needed from ";
+  static const String warningMembersSuffix = " members";
+  static const String vehicleDetails = "VEHICLE DETAILS";
+  static const String confirmed = "Confirmed";
+  static const String seatsSuffix = "Seats";
+  static const String viewMemberStatus = "View Member Status";
+  static const String sendAllReminders = "Send All Reminders";
+}
+
+class FullAmountConsolidatedStrings {
+  FullAmountConsolidatedStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION · CONSOLIDATED";
+  static const String layerLabel = "LAYER 3 · PAYMENT";
+  static const String title = "Full Amount Consolidated";
+  static const String fullyCollectedPrefix = "Full amount collected! ₹";
+  static const String consolidationVerified = "Consolidation Verified";
+  static const String totalCollectedFromMembers = "Total collected from members";
+  static const String tripConsoleServiceFee = "TripConsole service fee";
+  static const String totalReceivable = "TOTAL RECEIVABLE";
+  static const String secured = "100% SECURED";
+  static const String transferNote = "TripConsole will now transfer the full hire amount directly to KSRTC's designated account. KSRTC receives 100% of the agreed fare.";
+  static const String processTimeline = "PROCESS TIMELINE";
+  static const String memberPoolingCompleted = "Member Pooling Completed";
+  static const String readyForKsrtcTransfer = "Ready for KSRTC Transfer";
+  static const String finalReceiptGeneration = "Final Receipt Generation";
+  static const String transferToKsrtc = "Transfer to KSRTC";
+}
+
+class KsrtcTransferConfirmationStrings {
+  KsrtcTransferConfirmationStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → TRANSFER CONFIRMED";
+  static const String layerLabel = "Layer 3 · Payment ends";
+  static const String title = "Transfer Confirmation";
+  static const String paymentTransferred = "Payment Transferred to KSRTC";
+  static const String transferReceipt = "TRANSFER RECEIPT";
+  static const String amountTransferred = "Amount Transferred";
+  static const String ksrtcAccountReference = "KSRTC Account Reference";
+  static const String transactionId = "Transaction ID";
+  static const String dateAndTime = "Date & Time";
+  static const String transferMethod = "Transfer Method";
+  static const String tripConsoleFeeReceipt = "TRIPCONSOLE FEE RECEIPT";
+  static const String serviceFeeCollected = "Service Fee Collected";
+  static const String paidBy = "Paid By";
+  static const String splitAcrossMembers = "Split across members";
+  static const String activeMembersContributedSuffix = " active members contributed";
+  static const String downloadETicket = "Download E-Ticket";
+}
+
+class KsrtcETicketStrings {
+  KsrtcETicketStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → E-TICKET";
+  static const String postPayment = "POST-PAYMENT";
+  static const String title = "E-Ticket";
+  static const String bookingReference = "KSRTC BOOKING REFERENCE";
+  static const String busNumberAndType = "BUS NUMBER + TYPE";
+  static const String route = "ROUTE";
+  static const String passengers = "PASSENGERS";
+  static const String dateAndDeparture = "DATE + DEPARTURE TIME";
+  static const String confirmedAndPaid = "CONFIRMED & PAID";
+  static const String supportNote = "For KSRTC support: 1800-XXX-XXXX";
+  static const String shareWithGroup = "Share with Group";
+  static const String pdf = "PDF";
+}
+
+class ShareProcessingStrings {
+  ShareProcessingStrings._();
+
+  static const String title = "E-Ticket";
+  static const String sharing = "Sharing with your group...";
+  static const String bodyPrefix = "Sending the e-ticket to all ";
+  static const String bodySuffix = " travelers in this group";
+}
+
+class ShareSuccessStrings {
+  ShareSuccessStrings._();
+
+  static const String title = "E-Ticket";
+  static const String postPayment = "POST-PAYMENT";
+  static const String sharedWithGroup = "Shared with Group";
+  static const String bodyPrefix = "Your e-ticket has been sent to all ";
+  static const String bodySuffix = " travelers in this group";
+  static const String sharedVia = "SHARED VIA";
+  static const String groupChat = "Group Chat";
+  static const String recipientsSuffix = " recipients";
+  static const String sentJustNow = "Sent just now";
+  static const String nextDestination = "NEXT DESTINATION";
+  static const String review = "Review";
+}
+
+class ChooseGuideStrings {
+  ChooseGuideStrings._();
+
+  static const String breadcrumb = "TRIP DETAILS → TOURIST GUIDE";
+  static const String title = "Choose a Guide";
+  static const String forTripPrefix = "For ";
+  static const String language = "Language";
+  static const String price = "Price";
+  static const String rating = "Rating";
+  static const String topRated = "TOP RATED";
+  static const String experience = "EXPERIENCE";
+  static const String perDay = "PER DAY";
+  static const String tripsSuffix = " trips";
+  static const String yearsSuffix = " years";
+}
+
+class GuideProfileStrings {
+  GuideProfileStrings._();
+
+  static const String breadcrumb = "TOURIST GUIDE → PROFILE";
+  static const String about = "About";
+  static const String specialties = "Specialties";
+  static const String reviews = "Reviews";
+  static const String bookThisGuide = "Book This Guide";
+  static const String bookingConfirmed = "Guide booked! Added to your trip's Transport & Logistics.";
+}
+
+class PilgrimageTripModeStrings {
+  PilgrimageTripModeStrings._();
+
+  static const String title = "Trip Mode";
+  static const String heading = "How will pilgrims travel?";
+  static const String selfManagedTitle = "Self-Managed Trip";
+  static const String selfManagedBadge = "FULL CONTROL";
+  static const String selfManagedBody = "You arrange your own vehicle, stay, and food. Full control over every booking and price.";
+  static const String selfManagedTag1 = "Itemized Costs";
+  static const String selfManagedTag2 = "Negotiate Pricing";
+  static const String selectSelfManaged = "Select Self-Managed";
+  static const String ksrtcTitle = "KSRTC Collaboration";
+  static const String ksrtcBadge = "FASTER SETUP";
+  static const String ksrtcBody = "Use an official KSRTC pilgrim package. We'll help you manage pilgrims, rooms, and attendance around it.";
+  static const String ksrtcTag1 = "Fixed Government Rate";
+  static const String ksrtcTag2 = "Pre-Bundled Transport";
+  static const String selectKsrtc = "Select KSRTC Collaboration";
+  static const String note = "Not sure? Self-Managed gives full control over pricing, KSRTC Collaboration is faster if your group already has a KSRTC booking.";
+}
+
+class PilgrimageTripSetupStrings {
+  PilgrimageTripSetupStrings._();
+
+  static const String breadcrumb = "PILGRIMAGE CONSOLE → TRIP SETUP";
+  static const String title = "Trip Setup";
+  static const String heading = "How do you want to build this trip?";
+  static const String scratchTitle = "Start from Scratch";
+  static const String scratchBadge = "FULL FLEXIBILITY";
+  static const String scratchBody = "Build your pilgrimage trip step-by-step — pick destinations, transport, stay, and meals yourself.";
+  static const String scratchTag1 = "Custom Itinerary";
+  static const String scratchTag2 = "Your Own Pace";
+  static const String startFromScratch = "Start from Scratch";
+  static const String templateTitle = "Use a Template";
+  static const String templateBadge = "FASTER SETUP";
+  static const String templateBody = "Pick a ready-made plan for Sabarimala, Guruvayur, or Vailankanni and customise it for your group.";
+  static const String templateTag1 = "Pre-Filled Itinerary";
+  static const String templateTag2 = "Editable After";
+  static const String browseTemplates = "Browse Templates";
+  static const String note = "Not sure? Starting from scratch gives full control over pricing. Templates are faster if you're doing a common pilgrimage route.";
+}
+
+class PilgrimageTemplatesStrings {
+  PilgrimageTemplatesStrings._();
+
+  static const String breadcrumb = "PILGRIMAGE CONSOLE → TEMPLATES";
+  static const String title = "Pilgrimage Templates";
+  static const String filterAll = "All";
+  static const String filterSabarimala = "Sabarimala";
+  static const String filterGuruvayur = "Guruvayur";
+  static const String filterVelankanni = "Velankanni";
+  static const String ksrtcVerified = "✓ KSRTC VERIFIED";
+  static const String fromPrefix = "From ₹";
+  static const String perHead = "/head";
+  static const String useTemplate = "Use Template";
+  static const String comingSoon = "Coming Soon";
+  static const String browseOtherRoutes = "Don't see your route? Start from scratch instead";
+}
+
+class SabarimalaTemplatePreviewStrings {
+  SabarimalaTemplatePreviewStrings._();
+
+  static const String breadcrumb = "PILGRIMAGE CONSOLE → TEMPLATE PREVIEW";
+  static const String title = "Route Planning";
+  static const String autoFilled = "AUTO-FILLED";
+  static const String prefillNote = "This template pre-fills your trip with common settings. You can edit everything after.";
+  static const String route = "ROUTE";
+  static const String duration = "DURATION";
+  static const String stay = "STAY";
+  static const String meals = "MEALS";
+  static const String basePrice = "BASE PRICE";
+  static const String customiseAndContinue = "Customise & Continue";
+  static const String browseOtherTemplates = "Not what you need? Browse other templates";
+}
+
+class PilgrimageTripStructureStrings {
+  PilgrimageTripStructureStrings._();
+
+  static const String breadcrumb = "PILGRIMAGE CONSOLE → KSRTC COLLABORATION";
+  static const String title = "Trip Structure Selection";
+  static const String heading = "How do you want to structure this trip?";
+  static const String body = "Choose whether to build the package yourself or use a fixed KSRTC rate for your pilgrimage trip.";
+  static const String largeGroupTitle = "Large Group";
+  static const String largeGroupSubtitle = "35 or more pilgrims";
+  static const String largeGroupBadge = "FULL CUSTOMISATION";
+  static const String largeGroupBody = "Full control over bus count, package structure, and vehicle selection for your pilgrimage trip.";
+  static const String customiseTrip = "Customise Trip";
+  static const String smallGroupTitle = "Small Group";
+  static const String smallGroupSubtitle = "Under 35 pilgrims";
+  static const String smallGroupBadge = "FIXED RATE";
+  static const String smallGroupBody = "Use a fixed KSRTC group rate — faster setup with less customisation needed.";
+  static const String useFixedRate = "Use Fixed Rate";
+}
+
+class PilgrimageSeatCountStrings {
+  PilgrimageSeatCountStrings._();
+
+  static const String breadcrumb = "PILGRIMAGE CONSOLE → LARGE GROUP";
+  static const String title = "Seat Count & Capacity";
+  static const String heading = "How many are travelling?";
+  static const String body = "Group size determines how much customisation KSRTC allows for your pilgrimage trip.";
+  static const String pilgrims = "Pilgrims";
+  static const String staff = "Staff / Coordinators";
+  static const String continueLabel = "Continue";
+}
+
+class PilgrimageBusSearchStrings {
+  PilgrimageBusSearchStrings._();
+
+  static const String breadcrumb = "KSRTC INTEGRATION → BUS SEARCH";
+  static const String layerLabel = "LAYER 1 · SEARCH";
+  static const String title = "KSRTC Bus Search";
+  static const String captureNote = "Captures search parameters to query KSRTC's live bus inventory.";
+  static const String from = "FROM";
+  static const String to = "TO";
+  static const String date = "DATE";
+  static const String autoFilled = "AUTO-FILLED";
+  static const String searchBuses = "Search Buses";
 }
 
 class LockedItineraryStrings {

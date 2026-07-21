@@ -157,7 +157,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                           const SizedBox(height: 20),
                           _PlanFullTripCard(onTap: () => context.push(AppRouter.tripBasics)),
                           const SizedBox(height: 12),
-                          _PlanPilgrimageCard(onTap: () {}),
+                          _PlanPilgrimageCard(onTap: () => context.push(AppRouter.pilgrimageTripMode)),
                           const SizedBox(height: 12),
                           Center(
                             child: TextButton.icon(

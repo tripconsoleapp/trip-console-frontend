@@ -7,6 +7,8 @@ import 'providers/email_auth_provider.dart';
 import 'providers/new_trip_provider.dart';
 import 'providers/hotel_booking_provider.dart';
 import 'providers/restaurant_booking_provider.dart';
+import 'providers/ksrtc_booking_provider.dart';
+import 'providers/pilgrimage_provider.dart';
 import 'utils/app_theme.dart';
 import 'utils/app_router.dart';
 
@@ -35,6 +37,8 @@ class TripConsoleApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewTripProvider()),
         ChangeNotifierProvider(create: (_) => HotelBookingProvider()),
         ChangeNotifierProvider(create: (_) => RestaurantBookingProvider()),
+        ChangeNotifierProvider(create: (_) => KsrtcBookingProvider()),
+        ChangeNotifierProvider(create: (_) => PilgrimageProvider()),
       ],
       child: Builder(
         builder: (context) {
