@@ -989,3 +989,59 @@ unchanged) → separately re-verified the KSRTC Collaboration path's Bus
 Search screen (all 4 fields incl. "46 Passengers", lock icons, "Submit"
 button, matches) → Submit → KSRTC Buses ("46 Passengers" correctly
 threaded through). `flutter analyze` clean (zero errors/warnings).
+
+---
+
+## 2026-07-22 — Session 11: Request-signing scaffold (backend not yet connected)
+
+The user shared a spec doc (`flutter side security.docx`) from the
+backend developer describing HMAC-SHA256 request signing
+(`x-app-signature` / `x-app-signature-timestamp` headers) meant to stop
+someone calling the API directly with a bare HTTP client once it's
+live. Confirmed first that **no real backend integration exists yet** —
+`dio` was already a `pubspec.yaml` dependency but never imported
+anywhere in `lib/`, no `Dio()` client, no interceptors, every screen
+runs on hardcoded mock data. The user confirmed the backend is being
+built separately and will connect once frontend work is done, so this
+is scaffolding for that future wiring, not something with a live
+target today.
+
+| File | Purpose |
+|---|---|
+| `lib/services/app_signature_interceptor.dart` | `AppSignatureInterceptor` — signs every request per the doc's exact spec (HMAC-SHA256 over `METHOD:PATH:TIMESTAMP:BODY`, secret via `--dart-define=APP_SIGNATURE_SECRET`) |
+| `lib/services/api_client.dart` | `ApiClient.instance` — shared `Dio()` with the interceptor attached, base URL via `--dart-define=API_BASE_URL`; the single place future screens should get a `Dio` from |
+
+`crypto: ^3.0.3` added to `pubspec.yaml` (the interceptor's only new
+dependency). Implemented the code as given in the doc, not reinterpreted
+— including its own inline comments about the body-serialization
+mismatch pitfall (sign the exact string that gets sent, not the object
+Dio might re-serialize differently) and the dev-mode `assert(false, ...)`
+that fails loudly if the secret env var isn't set, rather than silently
+sending unsigned requests.
+
+### Decisions made without asking (flag if wrong)
+
+- Put both files under `lib/services/`, matching the existing
+  `auth_service.dart` convention, rather than inventing a new
+  `lib/network/` folder.
+- Left a `TODO(backend)` comment on `ApiClient` for the future
+  auth-token interceptor the doc mentions ("your existing auth token
+  interceptor") — no such interceptor exists in this app yet, so
+  nothing was fabricated for it.
+- Did **not** wire `ApiClient`/`AppSignatureInterceptor` into any
+  screen or provider — there are no real API calls anywhere in the app
+  yet to attach it to. This is a ready-to-use scaffold, not yet live.
+
+### Explicitly deferred (not built, not silently skipped)
+
+- Migrating the secret from `--dart-define` to Android Keystore / iOS
+  Keychain (`flutter_secure_storage`) — the doc calls this out as the
+  better long-term option but says the dart-define approach is
+  acceptable for now. Not built since it needs a bootstrap/attestation
+  endpoint that doesn't exist yet.
+- Actually connecting to a real backend and testing `ENFORCE_APP_SIGNATURE`
+  end-to-end — blocked on the backend developer's side being ready.
+
+`flutter pub get` + `flutter analyze` clean (zero errors/warnings; same
+81 pre-existing info-level lints as before, none new from these two
+files). No live browser verification — this has no UI surface to check.
